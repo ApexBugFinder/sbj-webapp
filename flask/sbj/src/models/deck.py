@@ -15,4 +15,24 @@ class Deck(db.Model):
           def serialize(self):
                   return {
                     'id': self.id
+
                   }
+
+
+deck_cards_table = db.Table(
+  'deckcards',
+    db.Column(
+    'deck_id', db.Integer,
+    db.ForeignKey('decks.id'),
+    primary_key=True
+    ),
+    db.Column(
+    'card_id', db.Integer,
+    db.ForeignKey('cards.id'),
+    primary_key=True
+    ),
+    db.Column(
+    'used', db.Boolean,
+    default=False
+  )
+)

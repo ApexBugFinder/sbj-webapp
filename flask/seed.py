@@ -8,7 +8,9 @@ import hashlib
 import secrets
 from faker import Faker
 from sbj.src.models import db
-from sbj.src.models.deck import Deck
+# from sbj.src.models.deck import Deck
+from sbj.src.models import Game, Deck, game_deck_table, Card
+from sbj.src.models import deck_cards_table
 from sbj.src import create_app
 #from twitter.src.models import User, Tweet, likes_table, db
 #from twitter.src import create_app
@@ -37,6 +39,10 @@ def random_passhash():
 def truncate_tables():
     """Delete all rows from database tables"""
     Deck.query.delete()
+    Game.query.delete()
+    db.session.execute(game_deck_table.delete())
+    Card.query.delete()
+    db.session.execute(deck_cards_table.delete())
     # db.session.execute(likes_table.delete())
     # Tweet.query.delete()
     # User.query.delete()
