@@ -13,7 +13,7 @@ class Game(db.Model):
                   }
 
 
-game_deck = db.Table(
+game_deck_table = db.Table(
   'gamedecks',
   db.Column(
     'game_id', db.Integer,
