@@ -29,6 +29,24 @@ class Hand(db.Model):
                   self.player_limit = lim
                   self.status = HandStatus.ACTIVE.name
 
+            def serialize(self):
+                    return {
+                      'id':self.id,
+                      'status':self.status,
+                      'player_limit': self.player_limit,
+                      'h_value':self.value['high'],
+                      'l_value':self.value['low'],
+                      'user_id': self.user_id,
+                      'game_id': self.game_id
+                    }
+
+
+
+
+
+
+
+
 hand_cards_table=db.Table(
   'handcards',
   db.Column('hand_id', db.Integer,
