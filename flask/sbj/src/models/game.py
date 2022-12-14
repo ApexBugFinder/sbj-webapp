@@ -1,6 +1,7 @@
 from enum import Enum
 import datetime
-from . import db,Result
+from . import db
+from .result import Result
 
 class GameStatus(Enum):
             ACTIVE = 1
@@ -20,7 +21,7 @@ class Game(db.Model):
                               db.DateTime,
                               nullable=True
         )
-        decks = db.relationship('Deck', backref='game', cascade='all, delete')
+        # decks = db.relationship('Deck', backref='game', cascade='all, delete')
 
 
 
@@ -38,7 +39,7 @@ class Game(db.Model):
         def sortDeck(self, deck):
             self.deck.shuffle_deck()
 
-            
+
         def serialize(self):
                   return {
                     'id': self.id,

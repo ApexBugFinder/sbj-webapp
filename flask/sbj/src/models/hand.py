@@ -18,8 +18,8 @@ class Hand(db.Model):
             l_value=db.Column(db.Integer, nullable=False, default=0)
             user_id=db.Column(db.Integer,db.ForeignKey('players.id'),  nullable=False)
             game_id=db.Column(db.Integer, db.ForeignKey('games.id'),nullable=False)
-            cards=db.relationship(
-              'Card', backref='hand')
+            # cards=db.relationship(
+            #   'Card', backref='hand')
 
             def __init__(self, lim):
                   self.cards = set()

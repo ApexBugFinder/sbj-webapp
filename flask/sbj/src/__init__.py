@@ -42,5 +42,6 @@ def create_app(test_config=None):
     # from .api import users, tweets
     # app.register_blueprint(users.bp)
     # app.register_blueprint(tweets.bp)
-
+    from .api import card
+    app.register_blueprint(card.bp)
     return app
