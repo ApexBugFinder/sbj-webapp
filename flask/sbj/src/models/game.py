@@ -9,6 +9,8 @@ class Game(db.Model):
         __tablename__='games'
         id = db.Column(db.Integer,primary_key=True, autoincrement=True)
         game_status = db.Column(db.String(), nullable=False)
+        player_id = db.Column(db.Integer, db.ForeignKey('players.id'), nullable=False)
+        dealer_id = db.Column(db.Integer, db.ForeignKey('players.id'), nullable=False)
         started_at = db.Column(
                               db.DateTime,
                               default=datetime.datetime.utcnow,
