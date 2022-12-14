@@ -1,6 +1,6 @@
 from enum import Enum
 import datetime
-from . import db
+from . import db,Result
 
 class GameStatus(Enum):
             ACTIVE = 1
@@ -24,10 +24,21 @@ class Game(db.Model):
 
 
 
-        def __init__(self):
+        def __init__(self, players, deck):
                   id = self.id
-                  game_status = GameStatus.ACTIVE
+                  game_status = GameStatus.COMPLETE.name
+                  self.player = players["player"]
+                  self.dealer=players["dealer"]
+                  self.results=Result(players)
+                  self.deck = deck
+                  self.play = False
+                  self.used_pile =[]
 
+
+        def sortDeck(self, deck):
+            self.deck.shuffle_deck()
+
+            
         def serialize(self):
                   return {
                     'id': self.id,
