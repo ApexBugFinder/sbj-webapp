@@ -8,6 +8,7 @@ class Deck(db.Model):
             lazy='subquery',
             backref=db.backref('gamedecks_decks', lazy=True)
           )
+          cards=db.relationship('Card', backref='deck', cascade='all,delete')
 
           def __init__(self):
                   id = self.id
@@ -34,5 +35,6 @@ deck_cards_table = db.Table(
     db.Column(
     'used', db.Boolean,
     default=False
+
   )
 )
