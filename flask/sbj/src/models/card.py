@@ -13,9 +13,8 @@ class Card(db.Model):
 
 
 
-        def __init__(self,face:str=None,suite:str=None, h_value:int=0, l_value:int=0, url:str=None):
+        def __init__(self,face:str=None, suite:str=None, h_value:int=0, l_value:int=0, url:str=None):
                 self.id=None
-                self.deck_id = 0
                 self.face = face
                 self.suite = suite
                 self.value = h_value
@@ -25,16 +24,16 @@ class Card(db.Model):
                 self.possible_values = (h_value, l_value)
 
         def serialize(self):
-                return  {
-                'id': self.id,
-                'face': self.face,
-                'suite': self.suite,
-                
-                'h_value': self.h_value,
-                'l_value': self.l_value,
-                'url': self.url
-                }
 
+                return  {
+                        'id': self.id,
+                        'face': self.face,
+                        'suite': self.suite,
+
+                        'h_value': self.h_value,
+                        'l_value': self.l_value,
+                        'url': self.url
+                        }
         def set_deck_id(self, deck_id:int):
                   self.deck_id =deck_id
 

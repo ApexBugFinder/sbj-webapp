@@ -23,7 +23,7 @@ class Hand(db.Model):
 
             def __init__(self, lim):
                   self.cards = set()
-                  self.cards_count = self.cards_count()
+                  # self.cards_count = self.cards_count()
                   self.value ={ "high": 0, "low":0}
                   self.has_ace = False
                   self.player_limit = lim
@@ -59,7 +59,7 @@ hand_cards_table=db.Table(
   ),
   db.Column(
     'added_to_hand_at', db.DateTime,
-    default=datetime.datetime.utcnow,
+    default=datetime.datetime.utcnow(),
     nullable=False
   )
 )

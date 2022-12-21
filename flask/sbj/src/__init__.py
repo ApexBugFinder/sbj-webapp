@@ -8,6 +8,7 @@ from datetime import timedelta
 def create_app(test_config=None):
     app = Flask(__name__, instance_relative_config=True)
     app.config.from_mapping(
+        FLASK_DEBUG=True,
         SECRET_KEY='dev',
         SQLALCHEMY_DATABASE_URI='postgresql://postgres@localhost:5432/sbj',
         SQLALCHEMY_TRACK_MODIFICATIONS=False,
@@ -42,6 +43,10 @@ def create_app(test_config=None):
     # from .api import users, tweets
     # app.register_blueprint(users.bp)
     # app.register_blueprint(tweets.bp)
-    from .api import card
+    from .api import player,hand,card, deck, game
+    app.register_blueprint(player.bp)
+    app.register_blueprint(hand.bp)
     app.register_blueprint(card.bp)
+    app.register_blueprint(deck.bp)
+    app.register_blueprint(game.bp)
     return app

@@ -1,5 +1,5 @@
 from flask import Blueprint, jsonify, abort, request
-from ..models import *
+from ..models import Card, db
 
 bp = Blueprint('cards', __name__, url_prefix='/cards')
 
@@ -38,14 +38,14 @@ def show_by_id(id:int):
 @bp.route('/<int:id>', methods=['PUT'])
 def updateCard(id:int):
         c = Card.query.get_or_404(id)
-        if 'face' in request.json:
-            c.face = request.json['face']
-        if 'suite' in request.json:
-            c.suite = request.json['suite']
-        if 'h_value' in request.json:
-            c.h_value = request.json['h_value']
-        if 'l_value' in request.json:
-            c.l_value = request.json['l_value']
+        # if 'face' in request.json:
+        #     c.face = request.json['face']
+        # if 'suite' in request.json:
+        #     c.suite = request.json['suite']
+        # if 'h_value' in request.json:
+        #     c.h_value = request.json['h_value']
+        # if 'l_value' in request.json:
+        #     c.l_value = request.json['l_value']
         if 'url' in request.json:
             c.url = request.json['url']
         try:

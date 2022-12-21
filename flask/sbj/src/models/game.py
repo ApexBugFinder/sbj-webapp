@@ -1,8 +1,7 @@
 from enum import Enum
 import datetime
 from . import db
-from .result import Result
-
+# from . import Result
 class GameStatus(Enum):
             ACTIVE = 1
             COMPLETE = 2
@@ -14,7 +13,7 @@ class Game(db.Model):
         dealer_id = db.Column(db.Integer, db.ForeignKey('players.id'),  nullable=False)
         started_at = db.Column(
                               db.DateTime,
-                              default=datetime.datetime.utcnow,
+                              default=datetime.datetime.utcnow(),
                               nullable=False
                               )
         finished_at = db.Column(
@@ -25,13 +24,13 @@ class Game(db.Model):
 
 
 
-        def __init__(self, players, deck):
+        def __init__(self, players):
                   id = self.id
                   game_status = GameStatus.COMPLETE.name
                   self.player = players["player"]
                   self.dealer=players["dealer"]
-                  self.results=Result(players)
-                  self.deck = deck
+                  # self.results=Result(players)
+                  self.deck = None
                   self.play = False
                   self.used_pile =[]
 
@@ -49,16 +48,4 @@ class Game(db.Model):
                   }
 
 
-game_deck_table = db.Table(
-  'gamedecks',
-  db.Column(
-    'game_id', db.Integer,
-    db.ForeignKey('games.id'),
-    primary_key=True
-  ),
-  db.Column(
-    'deck_id', db.Integer,
-    db.ForeignKey('decks.id'),
-    primary_key=True
-    )
-)
+
