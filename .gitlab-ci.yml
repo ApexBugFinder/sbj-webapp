@@ -89,6 +89,7 @@ build:
   script:
     - echo $DOCKER_IMAGE_TAG
     - echo $GITLAB_IMAGE_TAG
+    - docker images
     # - docker build -t $DOCKER_IMAGE_TAG .
     # - docker images
     # - docker push $DOCKER_IMAGE_TAG
