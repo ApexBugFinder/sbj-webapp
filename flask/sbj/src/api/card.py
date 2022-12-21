@@ -47,7 +47,7 @@ def updateCard(id:int):
         # if 'l_value' in request.json:
         #     c.l_value = request.json['l_value']
         if 'url' in request.json:
-            c.url = request.json['url']
+                c.url = request.json['url']
         try:
                 db.session.add(c)
                 db.session.commit()
@@ -57,12 +57,12 @@ def updateCard(id:int):
 
 @bp.route('/<int:id>', methods=['DELETE'])
 def delete(id: int):
-      c = Card.query.get_or_404(id)
-      try:
-            db.session.delete(c)
-            db.session.commit()
-            return jsonify(True)
-      except:
-            return jsonify(False)
+        c = Card.query.get_or_404(id)
+        try:
+                db.session.delete(c)
+                db.session.commit()
+                return jsonify(True)
+        except:
+                return jsonify(False)
 
 
