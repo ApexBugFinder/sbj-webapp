@@ -81,7 +81,7 @@ before_script:
 
 build:
   stage: build-stage
-  image: docker:lastest
+  image: docker:latest
   services:
       - docker:dind
   before_script:
