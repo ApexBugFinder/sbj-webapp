@@ -63,10 +63,14 @@ test:
   stage: test
   image: python:latest
   before_script:
+    - python --version  # For debugging
+    - pip install virtualenv
+    - virtualenv venv
+    - source venv/bin/activate
+    - pip install -r requirements.txt
     - pip install pytest
     - pip install pytest-html
-    - pip install flask
-    - pip install Flask-SQLAlchemy
+
   script:
     - pytest --html=pytest_reports/pytest-report.html --self-contained-html
   artifacts:
