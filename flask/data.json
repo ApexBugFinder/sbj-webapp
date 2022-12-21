@@ -1,0 +1,73 @@
+{
+  "deck": [
+    {
+      "name": "S2",
+      "value": [2],
+      "url":"https://firebasestorage.googleapis.com/v0/b/resourcery-6cdb0.appspot.com/o/sb21%2Fimages%2F2S.png?alt=media&token=f75c3d1c-4e59-4391-bfae-eed2ff5420ee"
+    },
+    {
+      "name": "S3",
+      "value": [3],
+      "url":"https://firebasestorage.googleapis.com/v0/b/resourcery-6cdb0.appspot.com/o/sb21%2Fimages%2F3S.png?alt=media&token=fac65e49-3b8f-440d-b3db-34bfb9284b8d"
+    },
+    {
+      "name": "S4",
+      "value": [4],
+      "url":"https://firebasestorage.googleapis.com/v0/b/resourcery-6cdb0.appspot.com/o/sb21%2Fimages%2F4S.png?alt=media&token=cb75c591-43ac-45c0-9709-de3cc497cd71"
+    },
+    {
+      "name": "S5",
+      "value": [5],
+      "url":"https://firebasestorage.googleapis.com/v0/b/resourcery-6cdb0.appspot.com/o/sb21%2Fimages%2F5S.png?alt=media&token=77d62cdb-33b8-4dd9-b750-16755fbbc43b"
+    },
+    { "name": "S6", "value": [6], "url":"https://firebasestorage.googleapis.com/v0/b/resourcery-6cdb0.appspot.com/o/sb21%2Fimages%2F6S.png?alt=media&token=bec55170-a12e-4b2a-bacc-9a0f1eb92c05" },
+    { "name": "S7", "value": [7], "url":"https://firebasestorage.googleapis.com/v0/b/resourcery-6cdb0.appspot.com/o/sb21%2Fimages%2F7S.png?alt=media&token=963f3851-8610-4b7b-8fc9-cad757083194" },
+    { "name": "S8", "value": [8], "url":"https://firebasestorage.googleapis.com/v0/b/resourcery-6cdb0.appspot.com/o/sb21%2Fimages%2F8S.png?alt=media&token=129dc83e-bdf5-491e-9616-9bbdea832f58" },
+    { "name": "S9", "value": [9], "url":"https://firebasestorage.googleapis.com/v0/b/resourcery-6cdb0.appspot.com/o/sb21%2Fimages%2F9S.png?alt=media&token=34148b42-314b-4c70-b41c-9bf154ad2e2b" },
+    { "name": "S10", "value": [10], "url":"https://firebasestorage.googleapis.com/v0/b/resourcery-6cdb0.appspot.com/o/sb21%2Fimages%2F10S.png?alt=media&token=5fbee278-d639-4add-96ed-c50caeaace63" },
+    { "name": "SJ", "value": [10], "url":"https://firebasestorage.googleapis.com/v0/b/resourcery-6cdb0.appspot.com/o/sb21%2Fimages%2FJS.png?alt=media&token=b1e039cd-fd6d-4524-8174-eb309001e584" },
+    { "name": "SQ", "value": [10], "url":"https://firebasestorage.googleapis.com/v0/b/resourcery-6cdb0.appspot.com/o/sb21%2Fimages%2FQS.png?alt=media&token=bb3eccfd-13eb-4448-b94b-d06c8735792e" },
+    { "name": "SK", "value": [10], "url":"https://firebasestorage.googleapis.com/v0/b/resourcery-6cdb0.appspot.com/o/sb21%2Fimages%2FKS.png?alt=media&token=67f30a6a-c0cb-42ef-add7-d74e14417191" },
+    { "name": "SA", "value": [1, 11], "url":"https://firebasestorage.googleapis.com/v0/b/resourcery-6cdb0.appspot.com/o/sb21%2Fimages%2FAS.png?alt=media&token=31ecffc2-7489-4c81-8696-af84ad27fa87" },
+
+    { "name": "D2", "value": [2], "url":"https://firebasestorage.googleapis.com/v0/b/resourcery-6cdb0.appspot.com/o/sb21%2Fimages%2F2D.png?alt=media&token=b9e8731e-82b1-423d-bc4c-a6c2ee0f92f6" },
+    { "name": "D3", "value": [3], "url":"https://firebasestorage.googleapis.com/v0/b/resourcery-6cdb0.appspot.com/o/sb21%2Fimages%2F2H.png?alt=media&token=d24afc4e-4d1c-414d-bd62-639c72694594" },
+    { "name": "D4", "value": [4], "url":"https://firebasestorage.googleapis.com/v0/b/resourcery-6cdb0.appspot.com/o/sb21%2Fimages%2F3S.png?alt=media&token=fac65e49-3b8f-440d-b3db-34bfb9284b8d" },
+    { "name": "D5", "value": [5], "url":"https://firebasestorage.googleapis.com/v0/b/resourcery-6cdb0.appspot.com/o/sb21%2Fimages%2F5D.png?alt=media&token=c9dec071-c31f-4cf6-92cd-04d7ccea19be" },
+    { "name": "D6", "value": [6], "url":"https://firebasestorage.googleapis.com/v0/b/resourcery-6cdb0.appspot.com/o/sb21%2Fimages%2F6C.png?alt=media&token=88263173-f656-4d65-9779-e5ad0c60532a" },
+    { "name": "D7", "value": [7], "url":"https://firebasestorage.googleapis.com/v0/b/resourcery-6cdb0.appspot.com/o/sb21%2Fimages%2F7D.png?alt=media&token=460123e3-c5f5-48d6-ada2-40babdcc8040" },
+    { "name": "D8", "value": [8], "url":"https://firebasestorage.googleapis.com/v0/b/resourcery-6cdb0.appspot.com/o/sb21%2Fimages%2F8D.png?alt=media&token=36b980f8-7398-4fdf-a7ef-5098c16d50ed" },
+    { "name": "D9", "value": [9], "url":"https://firebasestorage.googleapis.com/v0/b/resourcery-6cdb0.appspot.com/o/sb21%2Fimages%2F9D.png?alt=media&token=f4309c7c-ad09-49d1-a63a-bd17954e4449" },
+    { "name": "D10", "value": [10], "url":"https://firebasestorage.googleapis.com/v0/b/resourcery-6cdb0.appspot.com/o/sb21%2Fimages%2F10C.png?alt=media&token=60c68e5e-62e9-4b70-98d6-88d2c768b322" },
+    { "name": "DJ", "value": [10], "url":"https://firebasestorage.googleapis.com/v0/b/resourcery-6cdb0.appspot.com/o/sb21%2Fimages%2FJD.png?alt=media&token=213431a2-4dd1-4d69-ba6e-ccb22a99e57f" },
+    { "name": "DQ", "value": [10], "url":"https://firebasestorage.googleapis.com/v0/b/resourcery-6cdb0.appspot.com/o/sb21%2Fimages%2FQD.png?alt=media&token=e9da2ad2-9852-4955-a1f0-76a4134c6cab" },
+    { "name": "DK", "value": [10], "url":"https://firebasestorage.googleapis.com/v0/b/resourcery-6cdb0.appspot.com/o/sb21%2Fimages%2FKD.png?alt=media&token=da3d61b1-fd1d-4587-9bb9-209484658ed6" },
+    { "name": "DA", "value": [1, 11], "url":"https://firebasestorage.googleapis.com/v0/b/resourcery-6cdb0.appspot.com/o/sb21%2Fimages%2FAD.png?alt=media&token=e5b2f819-d8f7-4094-8ba7-89e8c90ba99e" },
+    { "name": "C2", "value": [2], "url":"https://firebasestorage.googleapis.com/v0/b/resourcery-6cdb0.appspot.com/o/sb21%2Fimages%2F2C.png?alt=media&token=4634df41-3639-428e-a610-ad9c7725b66e" },
+    { "name": "C3", "value": [3], "url":"https://firebasestorage.googleapis.com/v0/b/resourcery-6cdb0.appspot.com/o/sb21%2Fimages%2F2H.png?alt=media&token=d24afc4e-4d1c-414d-bd62-639c72694594" },
+    { "name": "C4", "value": [4], "url":"https://firebasestorage.googleapis.com/v0/b/resourcery-6cdb0.appspot.com/o/sb21%2Fimages%2F3S.png?alt=media&token=fac65e49-3b8f-440d-b3db-34bfb9284b8d" },
+    { "name": "C5", "value": [5], "url":"https://firebasestorage.googleapis.com/v0/b/resourcery-6cdb0.appspot.com/o/sb21%2Fimages%2F4S.png?alt=media&token=cb75c591-43ac-45c0-9709-de3cc497cd71" },
+    { "name": "C6", "value": [6], "url":"https://firebasestorage.googleapis.com/v0/b/resourcery-6cdb0.appspot.com/o/sb21%2Fimages%2F6C.png?alt=media&token=88263173-f656-4d65-9779-e5ad0c60532a" },
+    { "name": "C7", "value": [7], "url":"https://firebasestorage.googleapis.com/v0/b/resourcery-6cdb0.appspot.com/o/sb21%2Fimages%2F7C.png?alt=media&token=d8c511aa-9770-44d7-a4cb-491f6fcb18f1" },
+    { "name": "C8", "value": [8], "url":"https://firebasestorage.googleapis.com/v0/b/resourcery-6cdb0.appspot.com/o/sb21%2Fimages%2F8C.png?alt=media&token=354a2079-f412-4a57-986e-4bcccab2e391" },
+    { "name": "C9", "value": [9], "url":"https://firebasestorage.googleapis.com/v0/b/resourcery-6cdb0.appspot.com/o/sb21%2Fimages%2F9C.png?alt=media&token=cbaa2f53-048d-4f99-80a9-17f0879cfe5e" },
+    { "name": "C10", "value": [10], "url":"https://firebasestorage.googleapis.com/v0/b/resourcery-6cdb0.appspot.com/o/sb21%2Fimages%2F10C.png?alt=media&token=60c68e5e-62e9-4b70-98d6-88d2c768b322" },
+    { "name": "CJ", "value": [10], "url":"https://firebasestorage.googleapis.com/v0/b/resourcery-6cdb0.appspot.com/o/sb21%2Fimages%2FJC.png?alt=media&token=0c79d7a6-857c-4971-9cf3-085e156f766d" },
+    { "name": "CQ", "value": [10], "url":"https://firebasestorage.googleapis.com/v0/b/resourcery-6cdb0.appspot.com/o/sb21%2Fimages%2FQC.png?alt=media&token=9a1a00f4-86c3-41ad-aa76-4e2ed3028c31" },
+    { "name": "CK", "value": [10], "url":"https://firebasestorage.googleapis.com/v0/b/resourcery-6cdb0.appspot.com/o/sb21%2Fimages%2FKC.png?alt=media&token=8fee8598-4dc8-40db-a3e2-6520635475b0" },
+    { "name": "CA", "value": [1, 11], "url":"https://firebasestorage.googleapis.com/v0/b/resourcery-6cdb0.appspot.com/o/sb21%2Fimages%2FAC.png?alt=media&token=72fb57ad-ca04-4776-be40-357cf43d7008" },
+    { "name": "H2", "value": [2], "url":"https://firebasestorage.googleapis.com/v0/b/resourcery-6cdb0.appspot.com/o/sb21%2Fimages%2F2H.png?alt=media&token=d24afc4e-4d1c-414d-bd62-639c72694594" },
+    { "name": "H3", "value": [3], "url":"https://firebasestorage.googleapis.com/v0/b/resourcery-6cdb0.appspot.com/o/sb21%2Fimages%2F2H.png?alt=media&token=d24afc4e-4d1c-414d-bd62-639c72694594" },
+    { "name": "H4", "value": [4], "url":"https://firebasestorage.googleapis.com/v0/b/resourcery-6cdb0.appspot.com/o/sb21%2Fimages%2F3S.png?alt=media&token=fac65e49-3b8f-440d-b3db-34bfb9284b8d" },
+    { "name": "H5", "value": [5], "url":"https://firebasestorage.googleapis.com/v0/b/resourcery-6cdb0.appspot.com/o/sb21%2Fimages%2F5H.png?alt=media&token=6366f3a5-5b29-4083-bb36-0afaf7e49d77" },
+    { "name": "H6", "value": [6], "url":"https://firebasestorage.googleapis.com/v0/b/resourcery-6cdb0.appspot.com/o/sb21%2Fimages%2F6C.png?alt=media&token=88263173-f656-4d65-9779-e5ad0c60532a" },
+    { "name": "H7", "value": [7], "url":"https://firebasestorage.googleapis.com/v0/b/resourcery-6cdb0.appspot.com/o/sb21%2Fimages%2F7H.png?alt=media&token=c1ee2c9c-19e9-469d-8964-30f7e3ac3ecb" },
+    { "name": "H8", "value": [8], "url":"https://firebasestorage.googleapis.com/v0/b/resourcery-6cdb0.appspot.com/o/sb21%2Fimages%2F8H.png?alt=media&token=656c991a-0e06-4436-a069-081a2eb82d9c" },
+    { "name": "H9", "value": [9], "url":"https://firebasestorage.googleapis.com/v0/b/resourcery-6cdb0.appspot.com/o/sb21%2Fimages%2F9H.png?alt=media&token=b33b5435-4819-4a17-a829-ed0155ede479" },
+    { "name": "H10", "value": [10], "url":"https://firebasestorage.googleapis.com/v0/b/resourcery-6cdb0.appspot.com/o/sb21%2Fimages%2F10H.png?alt=media&token=27b8c7d5-3c61-40e3-97c3-c12921f2aa9b" },
+    { "name": "HJ", "value": [10], "url":"https://firebasestorage.googleapis.com/v0/b/resourcery-6cdb0.appspot.com/o/sb21%2Fimages%2FJH.png?alt=media&token=ee35a840-1e40-4edf-8f38-d0083336626b" },
+    { "name": "HQ", "value": [10], "url":"https://firebasestorage.googleapis.com/v0/b/resourcery-6cdb0.appspot.com/o/sb21%2Fimages%2FQH.png?alt=media&token=76b5a618-a637-43f5-b0fb-ca9496abc901" },
+    { "name": "HK", "value": [10] , "url":"https://firebasestorage.googleapis.com/v0/b/resourcery-6cdb0.appspot.com/o/sb21%2Fimages%2FKH.png?alt=media&token=74130fda-3654-4262-9fb0-184c880fe497"},
+    { "name": "HA", "value": [1, 11] , "url":"https://firebasestorage.googleapis.com/v0/b/resourcery-6cdb0.appspot.com/o/sb21%2Fimages%2FAH.png?alt=media&token=c86d66c8-9a21-4912-ac06-229f614bde19"}
+  ]
+}

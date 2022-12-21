@@ -1,19 +1,17 @@
 """
 Populate twitter database with fake data using the SQLAlchemy ORM.
 """
-
+import json
+from datetime import date
 import random
 import string
 import hashlib
 import secrets
 from faker import Faker
-from sbj.src.models import db
-# from sbj.src.models.deck import Deck
 from sbj.src.models import *
-# from sbj.src.models import deck_cards_table, hand_cards_table
 from sbj.src import create_app
-#from twitter.src.models import User, Tweet, likes_table, db
-#from twitter.src import create_app
+
+
 
 USER_COUNT = 50
 TWEET_COUNT = 100
@@ -61,6 +59,31 @@ def main():
     app.app_context().push()
     truncate_tables()
     fake = Faker()
+
+
+    with open('./data.json') as cards_file:
+            cards = json.load(cards_file)
+            for card in cards['deck']:
+                    cards_to_upload = []
+                    if card['name'][0]=='D':
+                        newCard = Card(card['name'], 'Diamonds', max(card['value']),min(card['value']),card['url'])
+                    elif card['name'][0]=='C':
+                        newCard=Card(card['name'], 'Clubs', max(card['value']),min(card['value']),card['url'])
+                    elif card['name'][0]=='H':
+                        newCard=Card(card['name'], 'Hearts', max(card['value']),min(card['value']),card['url'])
+                    elif card['name'][0]=='S':
+                        newCard=Card(card['name'], 'Spades', max(card['value']),min(card['value']),card['url'])
+                    db.session.add(newCard)
+
+            db.session.commit()
+
+    deck_init = Deck()
+
+    print(str(deck_init.created_at), deck_init.id)
+    db.session.add(deck_init)
+    db.session.commit()
+    print (deck_init.serialize())
+
 
     # last_user = None  # save last user
     # for _ in range(USER_COUNT):
