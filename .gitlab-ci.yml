@@ -84,8 +84,7 @@ build:
   stage: build-stage
   image: docker:latest
   tags:
-    - sbj-webapp
-    - python
+    - sbjwebapp
   services:
       - docker:dind
   before_script:
@@ -106,8 +105,7 @@ deploy-production:
   services:
     - docker:dind
   tags:
-    - sbj-webapp
-    - python
+    - sbjwebapp
   environment:
     name: production
     url: https://198.211.29.93
