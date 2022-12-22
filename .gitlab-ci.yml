@@ -45,7 +45,7 @@ cache:
 
 
 stages:
-    - setup
+    - setup-stage
     - test
     - build-stage
     - deploy-feature-stage
@@ -79,7 +79,7 @@ stages:
 #     paths:
 #       - pytest_reports/
 setup:
-  stage: setup
+  stage: setup-stage
   image: python:latest
   tags:
     - sbjwebapp
