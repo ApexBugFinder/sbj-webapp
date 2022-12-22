@@ -69,7 +69,6 @@ setup:
   tags:
     - sbjwebapp
   before_script:
-    - python --version  # For debugging
     - pip install virtualenv
     - virtualenv venv
     - source venv/bin/activate
