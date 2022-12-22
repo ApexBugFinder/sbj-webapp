@@ -69,7 +69,6 @@ setup:
   tags:
     - sbjwebapp
   before_script:
-
     - source venv/bin/activate
   script:
     - pip3 install -r requirements.txt
