@@ -145,7 +145,7 @@ deploy-run:
     url: https://198.211.29.93
   script:
     - ls -al
-    - cd flask
+    - cd flask/sbj
     - ls -al
     - python3 run
 
