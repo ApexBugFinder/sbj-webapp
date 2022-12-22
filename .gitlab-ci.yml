@@ -135,19 +135,19 @@ cache:
 #     - echo "App deployed to staging server at " $PRIVATE_SERVER
 #     - ls -al
 
-deploy-run:
-  stage: deploy-server-stage
-  image: python:latest
-  tags:
-    - sbjwebapp
-  environment:
-    name: production
-    url: https://198.211.29.93
-  script:
-    - ls -al
-    - cd flask/sbj
-    - ls -al
-    - python3 wsgi.py
+# deploy-run:
+#   stage: deploy-server-stage
+#   image: python:latest
+#   tags:
+#     - sbjwebapp
+#   environment:
+#     name: production
+#     url: https://198.211.29.93
+#   script:
+#     - ls -al
+#     - cd flask/sbj
+#     - ls -al
+#     - python3 wsgi.py
 
 # pages:
 #   script:
