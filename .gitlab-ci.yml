@@ -147,7 +147,7 @@ deploy-run:
     - ls -al
     - cd flask/sbj
     - ls -al
-    - python3 run
+    - python3 wsgi.py
 
 # pages:
 #   script:
