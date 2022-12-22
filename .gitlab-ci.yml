@@ -83,6 +83,8 @@ before_script:
 build:
   stage: build-stage
   image: docker:latest
+  tags:
+    - sbj-webapp
   services:
       - docker:dind
   before_script:
