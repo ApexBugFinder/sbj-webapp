@@ -121,6 +121,8 @@ deploy-production:
   environment:
     name: production
     url: https://198.211.29.93
+  before_script:
+    - docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY
   script:
     - docker pull $GITLAB_IMAGE_TAG
     - docker images
