@@ -1,16 +1,15 @@
 version: '3.4'
 
 services:
-  techdocang:
-    image: obasi79/
+  sbjwebapp:
+    image: obasi79/sbjwebapp-production
     stdin_open: true
     tty: true
-    volumes:
-      - /home/apexbugfinder/.aspnet/https/nginx:/etc/nginx/conf.d/:rw
+
     build:
         context: .
         dockerfile: ./Dockerfile
     environment:
         NODE_ENV: production
     ports:
-        - 3500:80
+        - 3700:80
