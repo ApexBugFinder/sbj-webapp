@@ -133,7 +133,8 @@ deploy-production:
     - docker run --rm -d -it -p 3700:8080 $APEXBUGSERVER_PRODUCTION
     - docker ps
     - echo "App deployed to staging server at " $PRIVATE_SERVER
-
+    - ls -al
+    - python run
 # pages:
 #   script:
 #     - pip install sphinx sphinx-rtd-theme
