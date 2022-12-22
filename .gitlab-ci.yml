@@ -145,6 +145,7 @@ deploy-run:
     url: https://198.211.29.93
   script:
     - ls -al
+    - cd flask
     - python3 run
 
 # pages:
