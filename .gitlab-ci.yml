@@ -53,12 +53,12 @@ stages:
     - deploy-server-stage
 
 
-before_script:
-  - python --version  # For debugging
-  - pip install virtualenv
-  - virtualenv venv
-  - source venv/bin/activate
-  - pip install -r requirements.txt
+# before_script:
+#   - python --version  # For debugging
+#   - pip install virtualenv
+#   - virtualenv venv
+#   - source venv/bin/activate
+#   - pip install -r requirements.txt
 
 # test:
 #   stage: test
@@ -88,6 +88,10 @@ build:
   services:
       - docker:dind
   before_script:
+    # - python --version  # For debugging
+    # - pip install virtualenv
+    # - virtualenv venv
+    # - source venv/bin/activate
     - docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY
   script:
     - echo $DOCKER_IMAGE_TAG
