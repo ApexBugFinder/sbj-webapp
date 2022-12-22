@@ -41,6 +41,7 @@ cache:
   paths:
     - .cache/pip
     - venv/
+    - pytest_reports/
 
 
 stages:
