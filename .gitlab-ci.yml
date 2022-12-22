@@ -69,7 +69,6 @@ setup:
   tags:
     - sbjwebapp
   before_script:
-    - pip3 install virtualenv
     - python -m  venv venv
     - source venv/bin/activate
   script:
@@ -81,9 +80,7 @@ test:
   stage: test
   image: python:latest
   before_script:
-
-    - pip3 install virtualenv
-    - python -m venv venv
+    - pip3 venv venv
     - source venv/bin/activate
     - pip3 install -r requirements.txt
     - pip3 install pytest
