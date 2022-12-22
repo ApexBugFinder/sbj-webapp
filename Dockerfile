@@ -5,5 +5,5 @@ ADD . /app
 
 
 RUN pip3 install -r requirements.txt
-CMD ["python", "flask/sbj/wsgi.py"]
+CMD ["python3", "flask/sbj/wsgi.py"]
 
