@@ -71,6 +71,7 @@ setup:
   before_script:
     # - pip3 install virtualenv
     # - virtualenv venv
+    - python3 -m venv /opt/env
     - source venv/bin/activate
   script:
     - pip3 install -r requirements.txt
