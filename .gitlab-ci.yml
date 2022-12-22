@@ -63,15 +63,15 @@ cache:
 
 
 
-setup:
-  stage: setup-stage
-  image: python:latest
-  tags:
-    - sbjwebapp
-  before_script:
-    - source venv/bin/activate
-  script:
-    - pip3 install -r requirements.txt
+# setup:
+#   stage: setup-stage
+#   image: python:latest
+#   tags:
+#     - sbjwebapp
+#   before_script:
+#     - source venv/bin/activate
+#   script:
+#     - pip3 install -r requirements.txt
 
 
 
@@ -144,7 +144,7 @@ deploy-run:
     name: production
     url: https://198.211.29.93
   script:
-    -ls -al
+    - ls -al
     - python3 run
 
 # pages:
