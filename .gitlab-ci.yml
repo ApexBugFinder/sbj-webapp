@@ -146,6 +146,7 @@ deploy-run:
   script:
     - ls -al
     - cd flask
+    - ls -al
     - python3 run
 
 # pages:
