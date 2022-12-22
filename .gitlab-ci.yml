@@ -70,7 +70,7 @@ setup:
     - sbjwebapp
   before_script:
     - pip3 install virtualenv
-    - virtualenv venv
+    - python -m  venv venv
     - source venv/bin/activate
   script:
     - pip3 install -r requirements.txt
@@ -83,7 +83,7 @@ test:
   before_script:
 
     - pip3 install virtualenv
-    - python -m virtualenv venv
+    - python -m venv venv
     - source venv/bin/activate
     - pip3 install -r requirements.txt
     - pip3 install pytest
