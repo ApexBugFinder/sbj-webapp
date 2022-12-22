@@ -76,20 +76,20 @@ setup:
 
 
 
-test:
-  stage: test
-  image: python:latest
-  before_script:
+# test:
+#   stage: test
+#   image: python:latest
+#   before_script:
 
-    - source venv/bin/activate
-    - pip3 install -r requirements.txt
+#     - source venv/bin/activate
+#     - pip3 install -r requirements.txt
 
-  script:
-    - pytest --html=pytest_reports/pytest-report.html --self-contained-html
-  artifacts:
-    when: always
-    paths:
-      - pytest_reports/
+#   script:
+#     - pytest --html=pytest_reports/pytest-report.html --self-contained-html
+#   artifacts:
+#     when: always
+#     paths:
+#       - pytest_reports/
 
 
 build:
