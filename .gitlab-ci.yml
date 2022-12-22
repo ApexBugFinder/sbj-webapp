@@ -7,7 +7,13 @@
 # Official language image. Look for the different tagged releases at:
 # https://hub.docker.com/r/library/python/tags/
 image: python:latest
-
+stages:
+    - setup-stage
+    - test
+    - build-stage
+    - deploy-feature-stage
+    - deploy-stage
+    - deploy-server-stage
 # Change pip's cache directory to be inside the project directory since we can
 # only cache local items.
 variables:
@@ -44,13 +50,7 @@ cache:
     - pytest_reports/
 
 
-stages:
-    - setup-stage
-    - test
-    - build-stage
-    - deploy-feature-stage
-    - deploy-stage
-    - deploy-server-stage
+
 
 
 # before_script:
@@ -81,13 +81,13 @@ test:
   stage: test
   image: python:latest
   before_script:
-    - python --version  # For debugging
-    - pip install virtualenv
-    - virtualenv venv
+
+    - pip3 install virtualenv
+    - python -m virtualenv venv
     - source venv/bin/activate
-    - pip install -r requirements.txt
-    - pip install pytest
-    - pip install pytest-html
+    - pip3 install -r requirements.txt
+    - pip3 install pytest
+    - pip3 install pytest-html
   script:
     - pytest --html=pytest_reports/pytest-report.html --self-contained-html
   artifacts:
