@@ -144,7 +144,7 @@ deploy-run:
     name: production
     url: https://198.211.29.93
   script:
-    - python run
+    - python3 run
 
 # pages:
 #   script:
