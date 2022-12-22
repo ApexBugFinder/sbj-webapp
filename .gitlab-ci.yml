@@ -107,6 +107,7 @@ deploy-production:
     - docker:dind
   tags:
     - sbj-webapp
+    - python
   environment:
     name: production
     url: https://198.211.29.93
