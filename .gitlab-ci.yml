@@ -78,7 +78,18 @@ stages:
 #     when: always
 #     paths:
 #       - pytest_reports/
-
+setup:
+  stage: setup
+  image: python:latest
+  tags:
+    - sbjwebapp
+  before_script:
+    - python --version  # For debugging
+    - pip install virtualenv
+    - virtualenv venv
+    - source venv/bin/activate
+  script:
+    - pip install -r requirements.txt
 
 build:
   stage: build-stage
@@ -88,10 +99,6 @@ build:
   services:
       - docker:dind
   before_script:
-    # - python --version  # For debugging
-    # - pip install virtualenv
-    # - virtualenv venv
-    # - source venv/bin/activate
     - docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY
   script:
     - echo $DOCKER_IMAGE_TAG
