@@ -85,6 +85,7 @@ build:
   image: docker:latest
   tags:
     - sbj-webapp
+    - python
   services:
       - docker:dind
   before_script:
