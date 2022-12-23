@@ -63,15 +63,15 @@ cache:
 
 
 
-# setup:
-#   stage: setup-stage
-#   image: python:latest
-#   tags:
-#     - sbjwebapp
-#   before_script:
-#     - source venv/bin/activate
-#   script:
-#     - pip3 install -r requirements.txt
+setup:
+  stage: setup-stage
+  image: python:latest
+  tags:
+    - sbjwebapp
+  before_script:
+    - source venv/bin/activate
+  script:
+    - pip3 install -r requirements.txt
 
 
 
@@ -91,49 +91,49 @@ cache:
 #       - pytest_reports/
 
 
-# build:
-#   stage: build-stage
-#   image: docker:latest
-#   tags:
-#     - sbjwebapp
-#   services:
-#       - docker:dind
-#   before_script:
-#     - docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY
-#   script:
-#     - echo $DOCKER_IMAGE_TAG
-#     - echo $GITLAB_IMAGE_TAG
-#     - docker images
-#     # - docker build -t $GITLAB_IMAGE_TAG .
-#     - docker build -t $DOCKER_IMAGE_TAG .
-#     - docker images
-#     - docker push $GITLAB_IMAGE_TAG
-#     - docker images
+build:
+  stage: build-stage
+  image: docker:latest
+  tags:
+    - sbjwebapp
+  services:
+      - docker:dind
+  before_script:
+    - docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY
+  script:
+    - echo $DOCKER_IMAGE_TAG
+    - echo $GITLAB_IMAGE_TAG
+    - docker images
+    # - docker build -t $GITLAB_IMAGE_TAG .
+    - docker build -t $DOCKER_IMAGE_TAG .
+    - docker images
+    - docker push $GITLAB_IMAGE_TAG
+    - docker images
 
 
-# deploy-production:
-#   stage: deploy-server-stage
-#   image: docker:dind
-#   services:
-#     - docker:dind
-#   tags:
-#     - sbjwebapp
-#   environment:
-#     name: production
-#     url: https://198.211.29.93
-#   before_script:
-#     - docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY
-#   script:
-#     - docker pull $GITLAB_IMAGE_TAG
-#     - docker images
-#     - echo $APEXBUGSERVER_PRODUCTION
-#     - docker tag $GITLAB_IMAGE_TAG $APEXBUGSERVER_PRODUCTION
-#     - echo $DOCKER_PASS | docker login --username $DOCKER_USER --password-stdin
-#     - docker push $APEXBUGSERVER_PRODUCTION
-#     - docker run --rm -d -it -p 3700:8080 $APEXBUGSERVER_PRODUCTION
-#     - docker ps
-#     - echo "App deployed to staging server at " $PRIVATE_SERVER
-#     - ls -al
+deploy-production:
+  stage: deploy-server-stage
+  image: docker:dind
+  services:
+    - docker:dind
+  tags:
+    - sbjwebapp
+  environment:
+    name: production
+    url: https://198.211.29.93
+  before_script:
+    - docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY
+  script:
+    - docker pull $GITLAB_IMAGE_TAG
+    - docker images
+    - echo $APEXBUGSERVER_PRODUCTION
+    - docker tag $GITLAB_IMAGE_TAG $APEXBUGSERVER_PRODUCTION
+    - echo $DOCKER_PASS | docker login --username $DOCKER_USER --password-stdin
+    - docker push $APEXBUGSERVER_PRODUCTION
+    - docker run --rm -d -it -p 3700:8080 $APEXBUGSERVER_PRODUCTION
+    - docker ps
+    - echo "App deployed to staging server at " $PRIVATE_SERVER
+    - ls -al
 
 # deploy-run:
 #   stage: deploy-server-stage
