@@ -1,7 +1,7 @@
 FROM python:latest AS base
-WORKDIR  /app
-ADD . /app
 
+ADD . /app
+WORKDIR  /app
 
 
 RUN pip3 install -r requirements.txt
