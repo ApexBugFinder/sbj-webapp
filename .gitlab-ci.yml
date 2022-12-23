@@ -130,7 +130,7 @@ deploy-production:
     - docker tag $GITLAB_IMAGE_TAG $APEXBUGSERVER_PRODUCTION
     - echo $DOCKER_PASS | docker login --username $DOCKER_USER --password-stdin
     - docker push $APEXBUGSERVER_PRODUCTION
-    - docker run --rm -d -it -p 3700:8080 $APEXBUGSERVER_PRODUCTION
+    - docker run --rm -d -it -p 3700:80 $APEXBUGSERVER_PRODUCTION
     - docker ps
     - echo "App deployed to staging server at " $PRIVATE_SERVER
     - ls -al
