@@ -1,7 +1,7 @@
 FROM python:latest AS base
 
-ADD . /app
-WORKDIR  /app
+ADD . /flask
+WORKDIR  /flask
 
 
 RUN pip3 install -r requirements.txt
