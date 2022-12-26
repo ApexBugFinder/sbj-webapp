@@ -3,8 +3,9 @@ import datetime
 from . import db
 # from . import Result
 class GameStatus(Enum):
-            ACTIVE = 1
-            COMPLETE = 2
+            PRE = 1
+            ACTIVE = 2
+            COMPLETE = 3
 class Game(db.Model):
         __tablename__='games'
         id = db.Column(db.Integer,primary_key=True, autoincrement=True)
@@ -26,9 +27,13 @@ class Game(db.Model):
 
         def __init__(self, players):
                   id = self.id
-                  game_status = GameStatus.COMPLETE.name
+                  self.game_status = GameStatus.COMPLETE.name
                   self.player = players["player"]
+
+                  self.player_id = self.player.id
+                  print('*****HELLO PLAYER ID: ', self.player_id)
                   self.dealer=players["dealer"]
+                  self.dealer_id = self.dealer.id
                   # self.results=Result(players)
                   self.deck = None
                   self.play = False

@@ -4,15 +4,8 @@ from ..models import Card, db
 bp = Blueprint('cards', __name__, url_prefix='/cards')
 
 
-@bp.route('', methods=['GET'])
-def index():
-          cards = Card.query.all()
-          result = []
-          for card in cards:
-                    result.append(card.serialize())
-          return jsonify(result)
 
-
+# CREATE
 @bp.route('/', methods=['POST'])
 def create():
           if 'face' not in request.json or 'suite'not in request.json or 'url' not in request.json:
@@ -29,6 +22,16 @@ def create():
           db.session.commit()
           return jsonify(c.serialize())
 
+
+# READ ALL
+@bp.route('', methods=['GET'])
+def index():
+        cards = Card.query.all()
+        result = []
+        for card in cards:
+                result.append(card.serialize())
+        return jsonify(result)
+
 # GET BY ID
 @bp.route('/<int:id>', methods=['GET'])
 def show_by_id(id:int):
@@ -36,6 +39,7 @@ def show_by_id(id:int):
 
         return jsonify(c.serialize())
 
+# UPDATE
 @bp.route('/<int:id>', methods=['PUT'])
 def updateCard(id:int):
         c = Card.query.get_or_404(id)
@@ -56,6 +60,8 @@ def updateCard(id:int):
         except:
                 return jsonify(False)
 
+
+# DELETE
 @bp.route('/<int:id>', methods=['DELETE'])
 def delete(id: int):
         c = Card.query.get_or_404(id)

@@ -63,3 +63,37 @@ def read_by_id(id: int):
                 return jsonify(h.serialize())
 
 
+# UPDATE
+@bp.route('/<int:id>', methods=['PUT'])
+def update(id: int):
+        h = Hand.query.get_or_404(id)
+
+        if 'status' in request.json:
+                h.status = request.json['status']
+
+        if 'player_limit' in request.json:
+                h.player_limit = request.json['player_limit']
+
+        if 'user.id' in request.json:
+                h.user_id  = request.json['user.id']
+
+        if 'game.id' in request.json:
+                h.game_id = request.json['game.id']
+
+        try:
+                db.session.add(h)
+                db.session.commit()
+                return jsonify(True)
+        except:
+                return jsonify(False)
+
+# DELETE
+@bp.route('/delete/<int:id>', methods =  ['DELETE'])
+def delete(id: int):
+        h = Hand.query.get_or_404(id)
+
+        try:
+                db.session.delete(h)
+                db.session.commit()
+        except:
+                return jsonify(False, {"message": "Something went wrong with deleting your hand"})

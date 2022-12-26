@@ -5,15 +5,7 @@ from ..models import db, Player
 
 bp = Blueprint('players', __name__, url_prefix='/players')
 
-@bp.route('', methods=['GET'])
-def index():
-        players = Player.query.all()
-        result = []
-        for player in players:
-                result.append(player.serialize())
-        if len(players)== 0:
-            return jsonify(False,{'message':'No players yet, Sorry'})
-        return jsonify(result)
+
 
 
 @bp.route('create', methods=['POST'])
@@ -32,14 +24,24 @@ def create():
         except:
                 return jsonify(False, {'message': 'Something went wrong'})
 
+# READ ALL
+@bp.route('', methods=['GET'])
+def index():
+        players = Player.query.all()
+        result = []
+        for player in players:
+                result.append(player.serialize())
+        if len(players) == 0:
+                return jsonify(False, {'message': 'No players yet, Sorry'})
+        return jsonify(result)
 
-#  READ by id, and by name
+#  READ by id
 @bp.route('read/<int:id>', methods=['GET'])
 def read_by_id(id: int):
         p = Player.query.get_or_404(id)
         return jsonify(p.serialize())
 
-
+# READ BY Name
 @bp.route('read_by_name/<string:username>', methods=['GET'])
 def read_by_name(username:str):
         try:
