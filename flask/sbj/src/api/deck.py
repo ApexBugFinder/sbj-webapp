@@ -1,6 +1,6 @@
 import sqlalchemy
 from flask import Blueprint, jsonify, abort, request
-from ..models import Deck, db, deck_cards_table, Card, DeckCard
+from ..models import Deck, db, deck_cards_table, Card, DeckCard, game_deck_table
 from sqlalchemy import insert,select
 
 bp = Blueprint('decks', __name__, url_prefix='/decks')
@@ -19,6 +19,8 @@ def index():
 
 @bp.route('create', methods=['POST'])
 def create_deck():
+        if 'game.id' in request.json:
+                game_id = request.json['game.id']
         new_deck = Deck()
         db.session.add(new_deck)
         db.session.commit()
@@ -28,7 +30,9 @@ def create_deck():
                 doc.append( DeckCard(card, new_deck.id))
         if len(doc) == 52:
                 try:
-
+                        stmt2 = sqlalchemy.insert(game_deck_table).values(game_id=game_id, deck_id=new_deck.id)
+                        db.session.execute(stmt2)
+                        db.session.commit()
                         for record in doc:
                                 stmt = sqlalchemy.insert(deck_cards_table).values(card_id =record.id, deck_id =record.deck_id , used=False)
                                 db.session.execute(stmt)

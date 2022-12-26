@@ -43,7 +43,7 @@ def createHand():
         except:
                 return jsonify(False)
 
-
+# READ ALL
 @bp.route('', methods=['GET'])
 def index():
         records = Hand.query.all()
@@ -54,5 +54,12 @@ def index():
                 return jsonify(False,{'message':'No Hands yet, Sorry'})
         return jsonify(result)
 
+
+# READ BY ID
+@bp.route('/<int:id>', methods=['GET'])
+def read_by_id(id: int):
+                h = Hand.query.get_or_404(id)
+
+                return jsonify(h.serialize())
 
 

@@ -29,6 +29,7 @@ def create():
           db.session.commit()
           return jsonify(c.serialize())
 
+# GET BY ID
 @bp.route('/<int:id>', methods=['GET'])
 def show_by_id(id:int):
         c = Card.query.get_or_404(id)
