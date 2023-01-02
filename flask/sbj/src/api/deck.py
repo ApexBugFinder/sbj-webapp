@@ -17,14 +17,27 @@ def create_deck():
         new_deck = Deck()
         db.session.add(new_deck)
         db.session.commit()
+        cardsQuery = Card.query.all()
+        docs = []
+        for card in cardsQuery:
+
+                new_card = DeckCard(
+                        card, deck_id=new_deck.id)
+                print(new_card.serialize())
+                docs.append(new_card)
         try:
                         stmt2 = sqlalchemy.insert(game_deck_table).values(
                                 game_id=game_id, deck_id=new_deck.id)
                         db.session.execute(stmt2)
+                        rt = []
+                        for card in docs:
+                                rt.append(card.serialize())
+                                stmt = sqlalchemy.insert(deck_cards_table).values(deck_id=card.deck_id, card_id=card.id)
+                                db.session.execute(stmt)
 
 
 
-                        return jsonify(new_deck.serialize())
+                        return jsonify(rt)
 
 
         except:
@@ -38,7 +51,7 @@ def get_by_id(id:int):
         return jsonify(d.serialize())
 
 # READ ALL
-@bp.route('', methods=['GET'])
+@bp.route('/', methods=['GET'])
 def index():
     decks = Deck.query.all()
     result = []
@@ -62,6 +75,10 @@ def delete(id: int):
         try:
                 db.session.delete(d)
                 db.session.commit()
+                stmt = sqlalchemy.delete(game_deck_table).where(deck_id = d.id)
+                db.session.execute(stmt)
+                stmt2 = sqlalchemy.delete(deck_cards_table).where(deck_id = d.id)
+                db.session.execute(stmt2)
                 return jsonify(True)
         except:
                 jsonify(False, {"message":"Something went wrong with Deck Delete"})

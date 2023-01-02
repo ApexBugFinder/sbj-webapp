@@ -97,3 +97,6 @@ def delete(id: int):
                 db.session.commit()
         except:
                 return jsonify(False, {"message": "Something went wrong with deleting your hand"})
+
+
+
