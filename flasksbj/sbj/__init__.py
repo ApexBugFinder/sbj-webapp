@@ -5,10 +5,7 @@ from datetime import timedelta
 from decouple import config
 
 # https://flask.palletsprojects.com/en/2.0.x/patterns/appfactories/
-# sqluri = 'postgresql://'+ config('DB_USER') +':'+config('DB_PASSWORD')+'@'+config('DB_HOST')+'/'+config('DB_NAME')
-# print(sqluri)
-print(config('DB_URI'))
-# 'postgresql://postgres:pass123.localhost:5434/sbj',
+
 def create_app(test_config=None):
     app = Flask(__name__, instance_relative_config=True)
     app.config.from_mapping(
