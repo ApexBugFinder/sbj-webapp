@@ -25,7 +25,7 @@ variables:
   GITLAB_IMAGE_TAG: $CI_REGISTRY_IMAGE/sbj-webapp/app-image:$CI_COMMIT_REF_SLUG
 
 
-  FEATURE_APP: "$CI_ENVIRONMENT_SLUG"
+  FEATURE_APP: $DOCKER_IMAGE_TAG:$CI_ENVIRONMENT_SLUG
   PRIVATE_SERVER: "https://198.211.29.93"
   STAGING_APP: sbjwebapp-staging
   PRODUCTION_APP: sbjwebapp-production
@@ -99,20 +99,66 @@ build:
   services:
       - docker:dind
   before_script:
-    - docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY
+    # - docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY
+    - echo $DOCKER_PASS | docker login --username $DOCKER_USER --password-stdin
   script:
     - echo $DOCKER_IMAGE_TAG
-    - echo $GITLAB_IMAGE_TAG
     - docker images
     - ls -al
-    # - docker build -t $GITLAB_IMAGE_TAG .
     - docker build -t $DOCKER_IMAGE_TAG ./flasksbj/
-    - docker tag $DOCKER_IMAGE_TAG $GITLAB_IMAGE_TAG
+    - docker tag $DOCKER_IMAGE_TAG
     - docker images
     - docker push $DOCKER_IMAGE_TAG
-    - docker push $GITLAB_IMAGE_TAG
     - docker images
 
+deploy-feature:
+    image: docker:latest
+    tags:
+      - sbjwebapp
+    services:
+      - docker:dind
+    stage:
+      - deploy-feature-stage
+    environment:
+      name: review/$CI_COMMIT_REF_NAME
+      url: https://198.211.29.93
+      on_stop: stop_feature
+    before_script:
+      - export FEATURE_APP:"$CI_ENVIRONMENT_SLUG"
+      - echo $DOCKER_PASS | docker login --username $DOCKER_USER --password-stdin
+    script:
+      - echo FEATURE_APP="$CI_ENVIRONMENT_SLUG" >> deploy_feature.env
+      - echo $FEATURE_APP
+      - docker pull $DOCKER_IMAGE_TAG
+      - docker tag $DOCKER_IMAGE_TAG $FEATURE_APP
+      - docker push $FEATURE_APP
+      - docker run --rm -d -it -p 3200:8080 $FEATURE_APP
+      - docker ps
+      - echo Feature app $FEATURE_APP deployed to " $PRIVATE_SERVER
+    only:
+       - /^feature-.*$/
+
+stop_feature:
+    image: docker:latest
+    tags:
+      - sbjwebapp
+    services:
+      - docker:dind
+    stage:
+      - deploy-feature-stage
+    variables:
+      GIT_STRATEGY: none
+    environment:
+      name: review/$CI_COMMIT_REF_NAME
+      url: https://198.211.29.93
+      action: stop
+    before_script:
+      - export FEATURE_APP="$CI_ENVIRONMENT_SLUG"
+    script:
+      - echo FEATURE_APP
+      - docker stop $(docker ps -a -q --filter ancestor=$FEATURE_APP)
+      - echo $FEATURE APP at server $PRIVATE_SERVER is destroyed
+    when: manual
 
 deploy-production:
   stage: deploy-server-stage
@@ -125,15 +171,16 @@ deploy-production:
     name: production
     url: https://198.211.29.93
   before_script:
-    - docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY
+    # - docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY
+    - echo $DOCKER_PASS | docker login --username $DOCKER_USER --password-stdin
   script:
-    - docker pull $GITLAB_IMAGE_TAG
+    - docker pull $DOCKER_IMAGE_TAG
     - docker images
     - echo $APEXBUGSERVER_PRODUCTION
-    - docker tag $GITLAB_IMAGE_TAG $APEXBUGSERVER_PRODUCTION
+    - docker tag $DOCKER_IMAGE_TAG $APEXBUGSERVER_PRODUCTION
     - echo $DOCKER_PASS | docker login --username $DOCKER_USER --password-stdin
     - docker push $APEXBUGSERVER_PRODUCTION
-    - docker run --rm -d -it -p 3400:3400 $APEXBUGSERVER_PRODUCTION
+    - docker run --rm -d -it -p 3400:8080 $APEXBUGSERVER_PRODUCTION
     - docker ps
     - echo "App deployed to staging server at " $PRIVATE_SERVER
     - ls -al
