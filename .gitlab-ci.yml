@@ -130,7 +130,7 @@ deploy-feature:
       - echo $DOCKER_IMAGE_TAG:$FEATURE_APP
       - docker pull $DOCKER_IMAGE_TAG
       - docker tag $DOCKER_IMAGE_TAG $DOCKER_IMAGE_TAG:$FEATURE_APP
-      - docker push $FEATURE_APP
+      - docker push $DOCKER_IMAGE:$FEATURE_APP
       - docker run --rm -d -it -p 3200:8080 $FEATURE_APP
       - docker ps
       - echo Feature app $FEATURE_APP deployed to " $PRIVATE_SERVER
