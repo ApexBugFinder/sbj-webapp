@@ -157,6 +157,7 @@ stop_feature:
       - export FEATURE_APP="$CI_ENVIRONMENT_SLUG"
     script:
       - echo FEATURE_APP
+      - echo $FEATURE_APP
       - docker stop $(docker ps -a -q --filter ancestor=$FEATURE_APP)
       - echo $FEATURE APP at server $PRIVATE_SERVER is destroyed
     when: manual
@@ -185,6 +186,8 @@ deploy-production:
     - docker ps
     - echo "App deployed to staging server at " $PRIVATE_SERVER
     - ls -al
+  only:
+    - main
 
 
 stop-deploy-production:

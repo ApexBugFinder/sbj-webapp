@@ -67,7 +67,13 @@ def read_by_id(id: int):
 
                 return jsonify(h.serialize())
 
+@bp.route('/get_cards/<int:id>', methods=['GET'])
+def get_hand_cards(id:int):
 
+        try:
+                return jsonify(True)
+        except:
+                return jsonify(False)
 # UPDATE
 @bp.route('/<int:id>', methods=['PUT'])
 def update(id: int):
