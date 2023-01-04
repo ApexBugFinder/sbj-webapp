@@ -105,7 +105,7 @@ build:
     - echo $GITLAB_IMAGE_TAG
     - docker images
     # - docker build -t $GITLAB_IMAGE_TAG .
-    - docker build -t $DOCKER_IMAGE_TAG ./
+    - docker build -t $DOCKER_IMAGE_TAG ./flasksbj/
     - docker images
     - docker push $GITLAB_IMAGE_TAG
     - docker images
