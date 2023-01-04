@@ -10,7 +10,7 @@ services:
       context: .
       dockerfile: ./Dockerfile
     ports:
-      - 5000:5000
+      - 3400:80
 
     environment:
       - FLASK_APP =sbj/wsgi.py
