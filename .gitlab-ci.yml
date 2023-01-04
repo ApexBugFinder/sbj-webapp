@@ -133,11 +133,29 @@ deploy-production:
     - docker tag $GITLAB_IMAGE_TAG $APEXBUGSERVER_PRODUCTION
     - echo $DOCKER_PASS | docker login --username $DOCKER_USER --password-stdin
     - docker push $APEXBUGSERVER_PRODUCTION
-    - docker run --rm -d -it -p 3700:80 $APEXBUGSERVER_PRODUCTION
+    - docker run --rm -d -it -p 3400:3400 $APEXBUGSERVER_PRODUCTION
     - docker ps
     - echo "App deployed to staging server at " $PRIVATE_SERVER
     - ls -al
 
+
+stop-deploy-production:
+    stage: deploy-server-stage
+    image: docker:latest
+    services:
+      - docker:dind
+    tags:
+      - sbjwebapp
+    environment:
+      name: production
+      url: https://198.211.29.93
+    script:
+      - echo $APEXBUGSERVER_PRODUCTION
+      - docker stop $(docker ps -a -q --filter ancestor=$APEXBUGSERVER_PRODUCTION)
+      - echo APP on PRODUCTION SERVER $PRIVATE_SERVER stopped with image name $APEXBUGSERVER_PRODUCTION
+    only:
+      - main
+    when: manual
 # deploy-run:
 #   stage: deploy-server-stage
 #   image: python:latest
