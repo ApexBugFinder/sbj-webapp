@@ -8,8 +8,8 @@ import string
 import hashlib
 import secrets
 from faker import Faker
-from sbj.src.models import *
-from sbj.src import create_app
+from sbj.src.models.dbObjects import *
+from sbj import create_app
 
 
 
@@ -18,6 +18,8 @@ TWEET_COUNT = 100
 LIKE_COUNT = 400
 
 assert LIKE_COUNT <= (USER_COUNT * TWEET_COUNT)
+
+
 
 
 def random_passhash():
@@ -76,7 +78,18 @@ def main():
                     db.session.add(newCard)
 
             db.session.commit()
-
+            # ADD PLAYERS
+            player1 = Player(
+                name="dealer"
+            )
+            player1.se
+            player2 = Player(
+                name="test_player"
+            )
+            db.session.add(player1)
+            db.session.commit()
+            db.session.add(player2)
+            db.session.commit()
     deck_init = Deck()
 
     print(str(deck_init.created_at), deck_init.id)

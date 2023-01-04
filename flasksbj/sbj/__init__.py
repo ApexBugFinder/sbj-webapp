@@ -2,15 +2,17 @@ import os
 from flask import Flask
 from flask_migrate import Migrate
 from datetime import timedelta
+
 # https://flask.palletsprojects.com/en/2.0.x/patterns/appfactories/
 
-
+# 'postgresql://postgres:pass123.localhost:5434/sbj',
 def create_app(test_config=None):
     app = Flask(__name__, instance_relative_config=True)
     app.config.from_mapping(
         FLASK_DEBUG=True,
         SECRET_KEY='dev',
-        SQLALCHEMY_DATABASE_URI="postgresql://postgres:pass123@localhost:5435/sbj",
+        # SQLALCHEMY_DATABASE_URI='postgresql://postgres:pass123@localhost:5434/sbj',
+        SQLALCHEMY_DATABASE_URI='postgresql://qitqsyhs:OTaHwkfOkI2eAyjAm4LCmabNUjk6kfMd@mahmud.db.elephantsql.com/qitqsyhs',
         SQLALCHEMY_TRACK_MODIFICATIONS=False,
         SQLALCHEMY_ECHO=True,
         NEO4J_URI=os.getenv('NEO4J_URI'),
@@ -36,16 +38,17 @@ def create_app(test_config=None):
     except OSError:
         pass
 
-    from .models import db
+    from .wsgi import db
     db.init_app(app)
     migrate = Migrate(app, db)
 
 
-    # from .api import player,hand,card, deck, game, deckcards
-    # app.register_blueprint(player.bp)
-    # app.register_blueprint(hand.bp)
-    # app.register_blueprint(card.bp)
-    # app.register_blueprint(deck.bp)
-    # app.register_blueprint(game.bp)
-    # app.register_blueprint(deckcards.bp)
+
+    from .src.api import player,hand,card, deck, game, deckcards
+    app.register_blueprint(player.bp)
+    app.register_blueprint(hand.bp)
+    app.register_blueprint(card.bp)
+    app.register_blueprint(deck.bp)
+    app.register_blueprint(game.bp)
+    app.register_blueprint(deckcards.bp)
     return app

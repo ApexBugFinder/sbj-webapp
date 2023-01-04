@@ -1,7 +1,8 @@
-import sqlalchemy
-from flask import Blueprint, jsonify, abort, request
-from ..models import Game, GameStatus, Player, db
 
+from flask import Blueprint, jsonify, abort, request
+from ..models.game import Game
+from ..models.player import Player
+from ...wsgi import db
 bp = Blueprint('games', __name__, url_prefix='/games')
 
 # CREATE

@@ -6,7 +6,7 @@
       "label": "docker-build",
       "platform": "python",
       "dockerBuild": {
-        "tag": "flask:latest",
+        "tag": "flasksbj:latest",
         "dockerfile": "${workspaceFolder}/Dockerfile",
         "context": "${workspaceFolder}",
         "pull": true
@@ -29,7 +29,7 @@
           "--host",
           "0.0.0.0",
           "--port",
-          "5002"
+          "5000"
         ],
         "module": "flask"
       }

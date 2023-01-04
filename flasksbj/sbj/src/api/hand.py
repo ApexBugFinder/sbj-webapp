@@ -1,7 +1,11 @@
-import sqlalchemy
+# import sqlalchemy
 from flask import Blueprint, jsonify, abort, request
-from ..models import Hand, Player, Game, Card, db, hand_cards_table
-
+from ..models.hand import Hand
+from ..models.player import  Player
+from ..models.game import Game
+from ..models.card import Card
+from ..dbObjects.handcards import hand_cards_table
+from ...wsgi import db
 bp = Blueprint('hands', __name__, url_prefix='/hands')
 
 
