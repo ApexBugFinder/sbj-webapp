@@ -21,9 +21,9 @@ from sbj.src.models.hand import Hand
 from sbj.src.models.result import Result
 from sbj.src.models.player import Player
 from sbj.src.models.handcards import hand_cards_table
-from sbj.src.dbObjects.gamedeck import game_deck_table
-from sbj.src.models.game_results import game_results_table
-from sbj.src.models.gameplayers import game_players_table
+# from sbj.src.dbObjects.gamedeck import game_deck_table
+# from sbj.src.models.game_results import game_results_table
+# from sbj.src.models.gameplayers import game_players_table
 from sbj import create_app
 
 

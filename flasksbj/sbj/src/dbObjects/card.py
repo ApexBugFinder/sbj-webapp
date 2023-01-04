@@ -1,4 +1,4 @@
-from ...wsgi import db
+from sbj.wsgi import db
 
 class dbCard(db.Model):
         __tablename__='cards'

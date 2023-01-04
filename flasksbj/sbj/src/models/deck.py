@@ -1,6 +1,6 @@
 import datetime
 
-from ..dbObjects.deck import dbDeck
+from sbj.src.dbObjects.deck import dbDeck
 
 #         # decks = db.relationship('Deck', backref='game', cascade='all, delete')
 
