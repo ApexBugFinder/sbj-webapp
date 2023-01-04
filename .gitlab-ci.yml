@@ -19,13 +19,14 @@ stages:
 variables:
   FF_USE_FASTZIP: "true"
   PIP_CACHE_DIR: "$CI_PROJECT_DIR/.cache/pip"
+  IMAGE_TAG: obasi79/sbj-webapp
   DOCKER_IMAGE_TAG: obasi79/sbj-webapp:$CI_COMMIT_SHORT_SHA
   # DOCKER_IMAGE_TAG: obasi79/sbj-webapp:$CI_COMMIT_REF_SLUG
 
   GITLAB_IMAGE_TAG: $CI_REGISTRY_IMAGE/sbj-webapp/app-image:$CI_COMMIT_REF_SLUG
 
 
-  FEATURE_APP: $DOCKER_IMAGE_TAG/$CI_ENVIRONMENT_SLUG
+  FEATURE_APP: $IMAGE_TAG/$CI_ENVIRONMENT_SLUG
   PRIVATE_SERVER: "https://198.211.29.93"
   STAGING_APP: sbjwebapp-staging
   PRODUCTION_APP: sbjwebapp-production
@@ -127,10 +128,10 @@ deploy-feature:
       # - echo $DOCKER_PASS | docker login --username $DOCKER_USER --password-stdin
     script:
       - echo FEATURE_APP="$CI_ENVIRONMENT_SLUG" >> deploy_feature.env
-      - echo $DOCKER_IMAGE_TAG:$FEATURE_APP
+      - echo $FEATURE_APP
       - docker pull $DOCKER_IMAGE_TAG
-      - docker tag $DOCKER_IMAGE_TAG $DOCKER_IMAGE_TAG:$FEATURE_APP
-      - docker push $DOCKER_IMAGE:$FEATURE_APP
+      - docker tag $DOCKER_IMAGE_TAG $FEATURE_APP
+      - docker push $FEATURE_APP
       - docker run --rm -d -it -p 3200:8080 $FEATURE_APP
       - docker ps
       - echo Feature app $FEATURE_APP deployed to " $PRIVATE_SERVER
