@@ -128,13 +128,13 @@ deploy-feature:
       # - echo $DOCKER_PASS | docker login --username $DOCKER_USER --password-stdin
     script:
       - echo FEATURE_APP="$CI_ENVIRONMENT_SLUG" >> deploy_feature.env
-      - echo $FEATURE_APP
+      - echo $IMAGE_TAG/$FEATURE_APP
       - docker pull $DOCKER_IMAGE_TAG
-      - docker tag $DOCKER_IMAGE_TAG $FEATURE_APP
-      - docker push $FEATURE_APP
-      - docker run --rm -d -it -p 3200:8080 $FEATURE_APP
+      - docker tag $DOCKER_IMAGE_TAG $IMAGE_TAG/$FEATURE_APP
+      - docker push $IMAGE_TAG/$FEATURE_APP
+      - docker run --rm -d -it -p 3200:8080 $IMAGE_TAG/$FEATURE_APP
       - docker ps
-      - echo Feature app $FEATURE_APP deployed to " $PRIVATE_SERVER
+      - echo Feature app $IMAGE_TAG/$FEATURE_APP deployed to " $PRIVATE_SERVER
     artifacts:
       reports:
         dotenv: deploy_feature.env
