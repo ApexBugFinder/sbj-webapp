@@ -126,7 +126,7 @@ deploy-feature:
       on_stop: stop_feature
     before_script:
       - export FEATURE_APP2="$CI_ENVIRONMENT_SLUG"
-      - echo $DOCKER_PASS | docker login --username $DOCKER_USER --password-stdin
+      # - echo $DOCKER_PASS | docker login --username $DOCKER_USER --password-stdin
     script:
       - echo FEATURE_APP2="$CI_ENVIRONMENT_SLUG" >> deploy_feature.env
       - echo $FEATURE_APP
@@ -134,7 +134,7 @@ deploy-feature:
       - echo FEATURE_APP2
       - docker pull $DOCKER_IMAGE_TAG
       - docker tag $DOCKER_IMAGE_TAG $FEATURE_APP
-      - echo $DOCKER_PASS | docker login --username $DOCKER_USER --password-stdin
+      # - echo $DOCKER_PASS | docker login --username $DOCKER_USER --password-stdin
       - docker push $FEATURE_APP
       - docker run --rm -d -it -p 3200:8080 $FEATURE_APP
       - docker ps
