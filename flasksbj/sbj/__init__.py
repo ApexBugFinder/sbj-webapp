@@ -44,7 +44,14 @@ def create_app(test_config=None):
 
 
 
-    from .src.api import player,hand,card, deck, game, deckcards
+    from sbj.src.api import player
+    from sbj.src.api import hand
+    from sbj.src.api import deck
+    from sbj.src.api import card
+    from sbj.src.api import game
+    from sbj.src.api import deckcards
+
+    # ,hand,card, deck, game, deckcards
     app.register_blueprint(player.bp)
     app.register_blueprint(hand.bp)
     app.register_blueprint(card.bp)

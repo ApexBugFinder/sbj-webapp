@@ -1,6 +1,6 @@
 from enum import Enum
 import datetime
-from ..dbObjects.game import dbGame
+from sbj.src.dbObjects.game import dbGame
 
 class GameStatus(Enum):
             PRE = 1

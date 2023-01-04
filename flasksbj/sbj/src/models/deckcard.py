@@ -1,4 +1,4 @@
-# from .dbObjects import deck_cards_table
+from ..dbObjects.deckcard import deck_cards_table
 from .card import Card
 
 

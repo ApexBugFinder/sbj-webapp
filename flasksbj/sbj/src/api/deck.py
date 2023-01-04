@@ -1,10 +1,10 @@
 from flask import Blueprint, jsonify, abort, request
-from ..models.deck import Deck
-from ..models.card import Card
-from ..models.deckcard import DeckCard
+from sbj.src.models.deck import Deck
+from sbj.src.models.card import Card
+from sbj.src.models.deckcard import DeckCard
 
-from ..dbObjects.deckcard import deck_cards_table
-from ..dbObjects.gamedeck import game_deck_table
+from sbj.src.dbObjects.deckcard import deck_cards_table
+from sbj.src.dbObjects.gamedeck import game_deck_table
 
 from ...wsgi import db
 bp = Blueprint('decks', __name__, url_prefix='/decks')

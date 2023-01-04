@@ -1,5 +1,5 @@
 # from . import db
-from ..dbObjects.card import dbCard
+from sbj.src.dbObjects.card import dbCard
 class Card(dbCard):
         def __init__(self,face:str=None, suite:str=None, h_value:int=0, l_value:int=0, url:str=None):
                 self.id=None

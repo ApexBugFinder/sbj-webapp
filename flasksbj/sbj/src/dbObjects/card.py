@@ -1,4 +1,4 @@
-from . import db
+from ...wsgi import db
 
 class dbCard(db.Model):
         __tablename__='cards'

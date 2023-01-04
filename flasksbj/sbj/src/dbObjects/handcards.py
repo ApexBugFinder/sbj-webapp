@@ -1,4 +1,4 @@
-from . import db
+from ...wsgi import db
 import datetime
 hand_cards_table = db.Table(
     'handcards',

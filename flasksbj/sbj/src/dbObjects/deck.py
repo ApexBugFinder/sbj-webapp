@@ -1,6 +1,6 @@
 import datetime
 
-from . import db
+from ...wsgi import db
 
 
 
@@ -9,4 +9,3 @@ class dbDeck(db.Model):
           id = db.Column(db.Integer, primary_key=True, autoincrement=True)
           created_at = db.Column(db.DateTime,
                                 default=datetime.datetime.utcnow(), nullable=False)
-      

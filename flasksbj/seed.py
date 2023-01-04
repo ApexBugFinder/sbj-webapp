@@ -8,7 +8,22 @@ import string
 import hashlib
 import secrets
 from faker import Faker
-from sbj.src.models.dbObjects import *
+from flask_sqlalchemy import SQLAlchemy
+db = SQLAlchemy()
+
+
+from sbj.src.models.card import Card
+from sbj.src.models.deck import Deck
+from sbj.src.models.deckcard import DeckCard,deck_cards_table
+from sbj.src.models.game import Game
+from sbj.src.models.hand import Hand
+
+from sbj.src.models.result import Result
+from sbj.src.models.player import Player
+from sbj.src.models.handcards import hand_cards_table
+from sbj.src.dbObjects.gamedeck import game_deck_table
+from sbj.src.models.game_results import game_results_table
+from sbj.src.models.gameplayers import game_players_table
 from sbj import create_app
 
 
@@ -38,20 +53,23 @@ def random_passhash():
 
 def truncate_tables():
     """Delete all rows from database tables"""
-    Deck.query.delete()
-    Game.query.delete()
+
+    db.session.execute(game_players_table.delete())
     db.session.execute(game_deck_table.delete())
-    Card.query.delete()
+    db.session.execute(hand_cards_table.delete())
     db.session.execute(deck_cards_table.delete())
+    db.session.execute(game_results_table.delete())
 
     Hand.query.delete()
-    db.session.execute(hand_cards_table.delete())
+
 
     Result.query.delete()
+
+
+    Deck.query.delete()
+    Game.query.delete()
+    Card.query.delete()
     Player.query.delete()
-    # db.session.execute(likes_table.delete())
-    # Tweet.query.delete()
-    # User.query.delete()
     db.session.commit()
 
 

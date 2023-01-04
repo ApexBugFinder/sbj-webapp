@@ -1,6 +1,4 @@
 
-from ...wsgi import db
-
 # from .result import dbResult
 # from .hand import dbHand
 # from .game import dbGame

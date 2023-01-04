@@ -1,6 +1,6 @@
 from flask import Blueprint, jsonify, abort, request
-from ..models.card import Card
-from ...wsgi import db
+from sbj.src.models.card import Card
+from sbj.wsgi import db
 bp = Blueprint('cards', __name__, url_prefix='/cards')
 
 

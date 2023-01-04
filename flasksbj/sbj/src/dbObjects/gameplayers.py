@@ -1,4 +1,4 @@
-from . import db
+from ...wsgi import db
 
 game_players_table = db.Table(
     'gameplayers',

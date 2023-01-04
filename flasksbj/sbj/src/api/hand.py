@@ -1,10 +1,11 @@
 # import sqlalchemy
 from flask import Blueprint, jsonify, abort, request
-from ..models.hand import Hand
-from ..models.player import  Player
-from ..models.game import Game
-from ..models.card import Card
-from ..dbObjects.handcards import hand_cards_table
+from sbj.src.models.card import Card
+from sbj.src.models.hand import Hand
+from sbj.src.models.player import Player
+from sbj.src.models.game import Game
+
+from sbj.src.dbObjects.handcards import hand_cards_table
 from ...wsgi import db
 bp = Blueprint('hands', __name__, url_prefix='/hands')
 
