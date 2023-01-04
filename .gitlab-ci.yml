@@ -25,7 +25,7 @@ variables:
   GITLAB_IMAGE_TAG: $CI_REGISTRY_IMAGE/sbj-webapp/app-image:$CI_COMMIT_REF_SLUG
 
 
-  FEATURE_APP: $DOCKER_IMAGE_TAG:$CI_ENVIRONMENT_SLUG
+  FEATURE_APP: $DOCKER_IMAGE_TAG/$CI_ENVIRONMENT_SLUG
   PRIVATE_SERVER: "https://198.211.29.93"
   STAGING_APP: sbjwebapp-staging
   PRODUCTION_APP: sbjwebapp-production
@@ -111,38 +111,35 @@ build:
     - docker push $DOCKER_IMAGE_TAG
     - docker images
 
-deploy-feature:
-    image: docker:latest
-    tags:
-      - sbjwebapp
-    services:
-      - docker:dind
-    stage:
-      - deploy-feature-stage
-    environment:
-      name: review/$CI_COMMIT_REF_NAME
-      url: https://198.211.29.93
-      on_stop: stop_feature
-    before_script:
-      - export FEATURE_APP:"$CI_ENVIRONMENT_SLUG"
-      # - echo $DOCKER_PASS | docker login --username $DOCKER_USER --password-stdin
-    script:
-      - echo FEATURE_APP="$CI_ENVIRONMENT_SLUG" >> deploy_feature.env
-      - echo $FEATURE_APP
-      - docker pull $DOCKER_IMAGE_TAG
-      - docker tag $DOCKER_IMAGE_TAG $FEATURE_APP
-      - docker push $FEATURE_APP
-      - docker run --rm -d -it -p 3200:8080 $FEATURE_APP
-      - docker ps
-      - echo Feature app $FEATURE_APP deployed to " $PRIVATE_SERVER
-    artifacts:
-      untracked: false
-      when: on_success
-      expire_in: "30 days"
-      reports:
-        dotenv: deploy_feature.env
-    only:
-       - /^feature-.*$/
+# deploy-feature:
+#     image: docker:latest
+#     tags:
+#       - sbjwebapp
+#     services:
+#       - docker:dind
+#     stage:
+#       - deploy-feature-stage
+#     environment:
+#       name: review/$CI_COMMIT_REF_NAME
+#       url: https://198.211.29.93
+#       on_stop: stop_feature
+#     before_script:
+#       - export FEATURE_APP:"$CI_ENVIRONMENT_SLUG"
+#       # - echo $DOCKER_PASS | docker login --username $DOCKER_USER --password-stdin
+#     script:
+#       - echo FEATURE_APP="$CI_ENVIRONMENT_SLUG" >> deploy_feature.env
+#       - echo $FEATURE_APP
+#       - docker pull $DOCKER_IMAGE_TAG
+#       - docker tag $DOCKER_IMAGE_TAG $FEATURE_APP
+#       - docker push $FEATURE_APP
+#       - docker run --rm -d -it -p 3200:8080 $FEATURE_APP
+#       - docker ps
+#       - echo Feature app $FEATURE_APP deployed to " $PRIVATE_SERVER
+#     artifacts:
+#       reports:
+#         dotenv: deploy_feature.env
+#     only:
+#        - /^feature-.*$/
 
 # stop_feature:
 #     image: docker:latest
