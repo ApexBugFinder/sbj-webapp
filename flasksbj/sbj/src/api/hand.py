@@ -69,7 +69,7 @@ def read_by_id(id: int):
 
 @bp.route('/get_cards/<int:id>', methods=['GET'])
 def get_hand_cards(id:int):
-
+        hand = Hand.query.all()
         try:
                 return jsonify(True)
         except:
