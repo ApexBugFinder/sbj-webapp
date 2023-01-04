@@ -123,7 +123,7 @@ deploy-feature:
       url: https://198.211.29.93
       on_stop: stop_feature
     before_script:
-      - export FEATURE_APP:"$CI_ENVIRONMENT_SLUG"
+      - export FEATURE_APP="$CI_ENVIRONMENT_SLUG"
       # - echo $DOCKER_PASS | docker login --username $DOCKER_USER --password-stdin
     script:
       - echo FEATURE_APP="$CI_ENVIRONMENT_SLUG" >> deploy_feature.env
@@ -156,7 +156,7 @@ stop_feature:
     before_script:
       - export FEATURE_APP="$CI_ENVIRONMENT_SLUG"
     script:
-      - echo FEATURE_APP
+      - echo $FEATURE_APP
       - echo $FEATURE_APP
       - docker stop $(docker ps -a -q --filter ancestor=$FEATURE_APP)
       - echo $FEATURE APP at server $PRIVATE_SERVER is destroyed
