@@ -134,7 +134,7 @@ deploy-feature:
       - echo FEATURE_APP2
       - docker pull $DOCKER_IMAGE_TAG
       - docker tag $DOCKER_IMAGE_TAG $FEATURE_APP
-      - echo $DOCKER_PASS | docker login --username $DOCKER_USER --password-stdin
+      # - echo $DOCKER_PASS | docker login --username $DOCKER_USER --password-stdin
       - docker push $FEATURE_APP
       - docker run --rm -d -it -p 3200:8080 $FEATURE_APP
       - docker ps
