@@ -6,6 +6,7 @@ from sbj.src.models.player import Player
 from sbj.src.models.game import Game
 
 from sbj.src.dbObjects.handcards import hand_cards_table
+from sbj.src.dbObjects.players_hand import players_hand_table
 from ...wsgi import db
 bp = Blueprint('hands', __name__, url_prefix='/hands')
 
@@ -64,12 +65,14 @@ def index():
 @bp.route('/<int:id>', methods=['GET'])
 def read_by_id(id: int):
                 h = Hand.query.get_or_404(id)
-
+# help needed my docker is dead
                 return jsonify(h.serialize())
 
 @bp.route('/get_cards/<int:id>', methods=['GET'])
 def get_hand_cards(id:int):
         hand = Hand.query.all()
+        j = Player.join(players_hand_table).join(Hand).join(hand_cards_table).join(Card)
+        stmt = select([Player,players_hand_table, Hand, hand_cards_table, Card]).select_from(j).filter(Player.c.id)
         try:
                 return jsonify(True)
         except:
