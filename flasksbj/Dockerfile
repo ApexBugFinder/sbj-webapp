@@ -23,4 +23,4 @@ USER appuser
 
 # During debugging, this entry point will be overridden. For more information, please refer to https://aka.ms/vscode-docker-python-debug
 # CMD ["gunicorn", "--bind", "0.0.0.0:5000", "sbj.wsgi:app"]
-CMD ["python3", "-m", "flask", "run", "--host=0.0.0.0:8000"]
+CMD ["python3", "-m", "flask", "run", "--host=198.211.29.93:8000"]
