@@ -105,7 +105,7 @@ deploy-feature:
       - docker push $FEATURE_APP
       - docker run --rm -d -it -p 3200:8080 $FEATURE_APP
       - docker ps
-      - echo Feature app $FEATURE_APP deployed to " $PRIVATE_SERVER
+      - echo Feature app $FEATURE_APP deployed to  $PRIVATE_SERVER
     artifacts:
       reports:
         dotenv: deploy_feature.env
