@@ -1,0 +1,10 @@
+{
+  "insomniaConfig": "1.0.0",
+  "settings": {
+    "allowNotificationRequests": false,
+    "disableUpdateNotification": true,
+    "enableAnalytics": false,
+    "disablePaidFeatureAds": true,
+    "incognitoMode": true
+  }
+}

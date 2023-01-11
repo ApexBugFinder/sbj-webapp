@@ -1,8 +1,12 @@
 
 from flask import Blueprint, jsonify, abort, request
-from ..models.game import Game
-from ..models.player import Player
-from ...wsgi import db
+from sbj.src.models.game import Game
+from sbj.src.models.player import Player
+from sbj.src.models.gameplayers import game_players_table
+from sbj.db import db
+# from db import db
+# from flask_sqlalchemy import SQLAlchemy
+# db = SQLAlchemy()
 bp = Blueprint('games', __name__, url_prefix='/games')
 
 # CREATE
@@ -10,9 +14,7 @@ bp = Blueprint('games', __name__, url_prefix='/games')
 
 @bp.route('/create_game', methods=['POST', 'GET'])
 def create():
-    print('HELLO')
-    print('*************************')
-    print("BRAVO")
+
     if 'player.id' not in request.json:
         return abort(400, 'player id is not in request.json')
     elif 'dealer.id' not in request.json:
@@ -30,7 +32,7 @@ def create():
             return jsonify(False)
 
 # GET ALL
-@bp.route('', methods=['GET'])
+@bp.route('/show_all', methods=['GET'])
 def index():
     games = Game.query.all()
     result = []
@@ -42,11 +44,32 @@ def index():
 
 
 # GET BY ID
-@bp.route('/<int:id>', methods=['GET'])
+@bp.route('/read/<int:id>', methods=['GET'])
 def get_by_id(id: int):
     g = Game.query.get_or_404(id)
+    print(g)
+    try:
+        j = Game.join(game_players_table, Game.c.id == game_players_table.c.game_id).join(Player, game_players_table.c.player_id == Player.c.id)
 
-    return jsonify(g.serialize())
+        stmt = select([Game, game_players_table, Player]).select_from(j).filter(Game.id ==g.id)
+        results = db.session.execute(stmt)
+        db.session.commit()
+        rt = []
+        for rec in results:
+                print(rec)
+                a = {
+                    "game.id": rec['id'],
+                    "started_at": rec['started_at'],
+                    "game_status": rec['game_status'],
+                    "finished_at": rec['finished_at'],
+
+                }
+                rt.append(a)
+
+        return jsonify(rt)
+    except:
+        return jsonify(False, {"message": "Operation failed to read game information"})
+
 
 
 # UPDATE

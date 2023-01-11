@@ -1,6 +1,5 @@
-from . import create_app
-from flask_sqlalchemy import SQLAlchemy
-db = SQLAlchemy()
+from .app import create_app
+
 
 app = create_app()
 

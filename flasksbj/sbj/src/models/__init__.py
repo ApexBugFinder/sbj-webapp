@@ -1,5 +1,5 @@
 # from .hand import Hand
-# from.card import Card
+
 # from .deck import Deck
 # from .deckcard import deck_cards_table
 # from .game import Game
@@ -15,6 +15,8 @@
 
 # from . import HandStatus
 # from .result import Result
+from flask_sqlalchemy import SQLAlchemy
+db = SQLAlchemy()
 
 
 

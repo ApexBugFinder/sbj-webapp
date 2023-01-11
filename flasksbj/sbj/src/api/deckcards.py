@@ -1,12 +1,19 @@
 from flask import Blueprint, jsonify, abort, request
-from ..models.deck import Deck
-from ..models.card import Card
-from ..models.deckcard import DeckCard
-from ..dbObjects.deckcard import  deck_cards_table
-from ..dbObjects.gamedeck import game_deck_table
-game_deck_table
-from ...wsgi import db
-# from sqlalchemy import select,join
+from sbj.src.models.deck import Deck
+from sbj.src.models.card import Card
+from sbj.src.models.deckcard import DeckCard
+from  sbj.src.models.deckcard import  deck_cards_table
+from  sbj.src.models.gamedeck import game_deck_table
+from sbj.db import db
+
+# from src.models.deck import Deck
+# from src.models.card import Card
+# from src.models.deckcard import DeckCard
+# from src.models.deckcard import deck_cards_table
+# from src.models.gamedeck import game_deck_table
+# from flask_sqlalchemy import SQLAlchemy
+# db = SQLAlchemy()
+from sqlalchemy import select,join
 
 bp = Blueprint('deckcards', __name__, url_prefix='/deckcards')
 

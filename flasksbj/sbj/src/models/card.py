@@ -1,5 +1,21 @@
 # from . import db
-from sbj.src.dbObjects.card import dbCard
+# from sbj.src.dbObjects.card import dbCard
+# from sbj.app import db
+from sbj.db import db
+# from db import db
+
+class dbCard(db.Model):
+    __tablename__ = 'cards'
+    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
+    h_value = db.Column(db.Integer, nullable=False, default=0)
+    l_value = db.Column(db.Integer, nullable=False, default=0)
+    face = db.Column(db.String(3), unique=True)
+    suite = db.Column(db.String(8))
+    url = db.Column(db.Text)
+
+
+
+
 class Card(dbCard):
         def __init__(self,face:str=None, suite:str=None, h_value:int=0, l_value:int=0, url:str=None):
                 self.id=None

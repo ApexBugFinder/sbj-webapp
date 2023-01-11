@@ -1,13 +1,23 @@
 # import sqlalchemy
 from flask import Blueprint, jsonify, abort, request
-from sbj.src.models.card import Card
-from sbj.src.models.hand import Hand
-from sbj.src.models.player import Player
-from sbj.src.models.game import Game
 
-from sbj.src.dbObjects.handcards import hand_cards_table
-from sbj.src.dbObjects.players_hand import players_hand_table
-from ...wsgi import db
+from sbj.src.models.card import Card
+from sbj.src.models.game import Game
+from sbj.src.models.player import Player
+from sbj.src.models.hand import Hand
+from sbj.src.models.handcards import hand_cards_table
+from sbj.src.models.players_hand import players_hand_table
+from sbj.db import db
+# from src.models.card import Card
+# from src.models.game import Game
+# from src.models.player import Player
+# from src.models.hand import Hand
+# from src.models.handcards import hand_cards_table
+# from src.models.players_hand import players_hand_table
+
+# from flask_sqlalchemy import SQLAlchemy
+# db = SQLAlchemy()
+# from db import db
 bp = Blueprint('hands', __name__, url_prefix='/hands')
 
 
@@ -50,7 +60,7 @@ def createHand():
                 return jsonify(False)
 
 # READ ALL
-@bp.route('', methods=['GET'])
+@bp.route('/show_all', methods=['GET'])
 def index():
         records = Hand.query.all()
         result = []

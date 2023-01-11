@@ -1,13 +1,34 @@
 import datetime
 from .handstatus import  HandStatus
-from ..dbObjects.player import dbPlayer
+from sbj.db import db
+from .hand import Hand
+# from db import db
 
 
+class dbPlayer(db.Model):
+    __tablename__ = 'players'
+    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
+    name = db.Column(db.String(128), unique=True,  nullable=False)
+    limit = db.Column(db.Integer, default=0, nullable=False)
+    created_at = db.Column(
+        db.DateTime,
+        default=datetime.datetime.utcnow(),
+        nullable=False
+    )
 class Player(dbPlayer):
           def __init__(self, name:str):
             self.name = name
             self.limit = 0
-            # self.hand = Hand(self.limit)
+            self.hand = None;
+
+          def initHand(self):
+              if self.id != None:
+                  self.hand = Hand(userid= self.id,lim=self.limit)
+                  self.hand.status = HandStatus.ACTIVE.name
+
+              else:
+                  print("Player does not have an id yet")
+
 
           def serialize(self):
                   return {
@@ -20,7 +41,9 @@ class Player(dbPlayer):
           def change_limit(self, new_limit):
 
                     self.limit = new_limit
-                    self.hand.player_limit = new_limit
+                    if self.hand != None:
+
+                            self.hand.player_limit = new_limit
 
                     return self.limit
 

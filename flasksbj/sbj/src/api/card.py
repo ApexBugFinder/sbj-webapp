@@ -1,6 +1,9 @@
 from flask import Blueprint, jsonify, abort, request
 from sbj.src.models.card import Card
-from sbj.wsgi import db
+# from src.models.card import Card
+# from flask_sqlalchemy import SQLAlchemy
+# db = SQLAlchemy()
+from sbj.db import db
 bp = Blueprint('cards', __name__, url_prefix='/cards')
 
 
@@ -8,23 +11,23 @@ bp = Blueprint('cards', __name__, url_prefix='/cards')
 # CREATE
 @bp.route('/', methods=['POST'])
 def create():
-          if 'face' not in request.json or 'suite'not in request.json or 'url' not in request.json:
-                  return abort(400)
+        if 'face' not in request.json or 'suite'not in request.json or 'url' not in request.json:
+                return abort(400)
 
-          c = Card(
-            face=request.json['face'],
-            h_value=request.json['h_value'],
-            l_value=request.json['l_value'],
-            suite=request.json['suite'],
-            url=request.json['url']
-          )
-          db.session.add(c)
-          db.session.commit()
-          return jsonify(c.serialize())
+        c = Card(
+        face=request.json['face'],
+        h_value=request.json['h_value'],
+        l_value=request.json['l_value'],
+        suite=request.json['suite'],
+        url=request.json['url']
+        )
+        db.session.add(c)
+        db.session.commit()
+        return jsonify(c.serialize())
 
 
 # READ ALL
-@bp.route('', methods=['GET'])
+@bp.route('/read/all', methods=['GET'])
 def index():
         cards = Card.query.all()
         result = []
@@ -33,7 +36,7 @@ def index():
         return jsonify(result)
 
 # GET BY ID
-@bp.route('/<int:id>', methods=['GET'])
+@bp.route('/read/<int:id>', methods=['GET'])
 def show_by_id(id:int):
         c = Card.query.get_or_404(id)
 

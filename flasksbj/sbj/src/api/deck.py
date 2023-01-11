@@ -2,18 +2,26 @@ from flask import Blueprint, jsonify, abort, request
 from sbj.src.models.deck import Deck
 from sbj.src.models.card import Card
 from sbj.src.models.deckcard import DeckCard
+from sbj.src.models.deckcard import deck_cards_table
+from sbj.src.models.gamedeck import game_deck_table
 
-from sbj.src.dbObjects.deckcard import deck_cards_table
-from sbj.src.dbObjects.gamedeck import game_deck_table
+from sbj.db import db
+# from src.models.deck import Deck
+# from src.models.card import Card
+# from src.models.deckcard import DeckCard
+# from src.models.deckcard import deck_cards_table
+# from src.models.gamedeck import game_deck_table
 
-from ...wsgi import db
+import sqlalchemy
+# from flask_sqlalchemy import SQLAlchemy
+# db = SQLAlchemy()
 bp = Blueprint('decks', __name__, url_prefix='/decks')
 
 
 
 
 # CREATE
-@bp.route('create', methods=['POST', 'GET'])
+@bp.route('/create', methods=['POST'])
 def create_deck():
 
         if 'game.id' in request.json:
@@ -33,14 +41,15 @@ def create_deck():
                         stmt2 = sqlalchemy.insert(game_deck_table).values(
                                 game_id=game_id, deck_id=new_deck.id)
                         db.session.execute(stmt2)
+
                         rt = []
                         for card in docs:
                                 rt.append(card.serialize())
-                                stmt = sqlalchemy.insert(deck_cards_table).values(deck_id=card.deck_id, card_id=card.id)
+                                stmt = sqlalchemy.insert(deck_cards_table).values(deck_id=card.deck_id, card_id=card.id, used=False)
                                 db.session.execute(stmt)
 
 
-
+                        db.session.commit()
                         return jsonify(rt)
 
 
@@ -48,14 +57,35 @@ def create_deck():
                 return jsonify(False)
 
 # READ BY ID
-@bp.route('/<int:id>', methods=['GET'])
+@bp.route('/read/<int:id>', methods=['GET'])
 def get_by_id(id:int):
         d =Deck.query.get_or_404(id)
+        try:
+                j = deck_cards_table.join(Card)
+                stmt = select([deck_cards_table, Card]).select_from(j).filter(deck_cards_table.c.deck_id == d.id)
 
-        return jsonify(d.serialize())
+                result = db.session.execute(stmt)
+                rt = []
+                for rec in result:
+
+                        print(rec)
+                        a = {
+                                "deck.id": rec['deck_id'],
+                                "used": rec['used'],
+                                "card": (rec['Card']).serialize()
+                        }
+                        rt.append(a)
+
+
+                return jsonify(rt)
+        except:
+                return jsonify(False, {"message": "Operation Failed to get deckcards"})
+
+
+
 
 # READ ALL
-@bp.route('/', methods=['GET'])
+@bp.route('/show_all', methods=['GET'])
 def index():
     decks = Deck.query.all()
     result = []

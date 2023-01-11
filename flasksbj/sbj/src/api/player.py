@@ -1,9 +1,11 @@
 # import sqlalchemy
 from flask import Blueprint, jsonify, abort, request
-
-from ..models.player import Player
-from ...wsgi import db
-
+# from sbj.src.models.player import Player
+from sbj.src.models.player import Player
+# from flask_sqlalchemy import SQLAlchemy
+# db = SQLAlchemy()
+from sbj.db import db
+# from db import db
 bp = Blueprint('players', __name__, url_prefix='/players')
 
 
@@ -26,7 +28,7 @@ def create():
                 return jsonify(False, {'message': 'Something went wrong'})
 
 # READ ALL
-@bp.route('', methods=['GET'])
+@bp.route('/show_all', methods=['GET'])
 def index():
         players = Player.query.all()
         result = []
