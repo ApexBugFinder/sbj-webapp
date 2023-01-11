@@ -50,7 +50,8 @@ setup:
     - sbjwebapp
   before_script:
     - source venv/bin/activate
-    - docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY
+    - echo $DOCKER_PASS | docker login -u $DOCKER_USER --password-stdin
+    - echo $CI_REGISTRY_PASSWORD | docker login -u $CI_REGISTRY_USER --password-stdin $CI_REGISTRY
   script:
     - echo $FEATURE_APP
     - pip3 install -r requirements.txt
