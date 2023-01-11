@@ -18,7 +18,7 @@ variables:
   GITLAB_IMAGE_TAG: $CI_REGISTRY_IMAGE/sbj-webapp/app-image:$CI_COMMIT_REF_SLUG
 
 
-  FEATURE_APP: $IMAGE_TAG/$CI_ENVIRONMENT_SLUG
+  FEATURE_APP: $IMAGE_TAG:$CI_ENVIRONMENT_SLUG
   PRIVATE_SERVER: "https://198.211.29.93"
   STAGING_APP: sbjwebapp-staging
   PRODUCTION_APP: sbjwebapp-production
@@ -100,10 +100,10 @@ deploy-feature:
       - echo $FEATURE_APP2
       - echo FEATURE_APP2
       - docker pull $DOCKER_IMAGE_TAG
-      - docker tag $DOCKER_IMAGE_TAG $DOCKER_IMAGE:$FEATURE_APP2
+      - docker tag $DOCKER_IMAGE_TAG $FEATURE_APP
       - echo $DOCKER_PASS | docker login --username $DOCKER_USER --password-stdin
-      - docker push $DOCKER_IMAGE:$FEATURE_APP2
-      - docker run --rm -d -it -p 3200:8080 $DOCKER_IMAGE:$FEATURE_APP2
+      - docker push $FEATURE_APP
+      - docker run --rm -d -it -p 3200:8080 $FEATURE_APP
       - docker ps
       - echo Feature app $FEATURE_APP deployed to " $PRIVATE_SERVER
     artifacts:
