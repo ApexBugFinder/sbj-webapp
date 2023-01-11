@@ -55,3 +55,127 @@ setup:
   script:
     - echo $FEATURE_APP
     - pip3 install -r requirements.txt
+
+
+
+build:
+  stage: build-stage
+  image: docker:latest
+  tags:
+    - sbjwebapp
+  services:
+      - docker:dind
+  before_script:
+    # - docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY
+    # - echo $CI_REGISTRY_USER | docker login  -u $CI_REGISTRY_USER --password-stdin $CI_REGISTRY
+    - echo $DOCKER_PASS | docker login --username $DOCKER_USER --password-stdin
+  script:
+    - echo $DOCKER_IMAGE_TAG
+    - docker images
+    - ls -al
+    - docker build -t $DOCKER_IMAGE_TAG ./flasksbj/
+
+    - docker images
+    - docker push $DOCKER_IMAGE_TAG
+    - docker images
+
+
+deploy-feature:
+    image: docker:latest
+    tags:
+      - sbjwebapp
+    services:
+      - docker:dind
+    stage: deploy-feature-stage
+    environment:
+      name: review/$CI_COMMIT_REF_NAME
+      url: https://198.211.29.93
+      on_stop: stop_feature
+    before_script:
+      - export FEATURE_APP2="$CI_ENVIRONMENT_SLUG"
+      - echo $DOCKER_PASS | docker login --username $DOCKER_USER --password-stdin
+    script:
+      - echo FEATURE_APP2="$CI_ENVIRONMENT_SLUG" >> deploy_feature.env
+      - echo $FEATURE_APP
+      - echo $FEATURE_APP2
+      - echo FEATURE_APP2
+      - docker pull $DOCKER_IMAGE_TAG
+      - docker tag $DOCKER_IMAGE_TAG $FEATURE_APP
+      # - echo $DOCKER_PASS | docker login --username $DOCKER_USER --password-stdin
+      - docker push $FEATURE_APP
+      - docker run --rm -d -it -p 3200:8080 $FEATURE_APP
+      - docker ps
+      - echo Feature app $FEATURE_APP deployed to " $PRIVATE_SERVER
+    artifacts:
+      reports:
+        dotenv: deploy_feature.env
+    only:
+       - /^feature-.*$/
+
+stop_feature:
+    image: docker:latest
+    tags:
+      - sbjwebapp
+    services:
+      - docker:dind
+    stage: deploy-feature-stage
+    variables:
+      GIT_STRATEGY: none
+    environment:
+      name: review/$CI_COMMIT_REF_NAME
+      url: https://198.211.29.93
+      action: stop
+    before_script:
+      - export FEATURE_APP="$CI_ENVIRONMENT_SLUG"
+    script:
+      - echo $FEATURE_APP
+      - echo $FEATURE_APP
+      - docker stop $(docker ps -a -q --filter ancestor=$FEATURE_APP)
+      - echo $FEATURE APP at server $PRIVATE_SERVER is destroyed
+    when: manual
+
+deploy-production:
+  stage: deploy-server-stage
+  image: docker:dind
+  services:
+    - docker:dind
+  tags:
+    - sbjwebapp
+  environment:
+    name: production
+    url: https://198.211.29.93
+  before_script:
+    # - docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY
+    - echo $DOCKER_PASS | docker login --username $DOCKER_USER --password-stdin
+  script:
+    - docker pull $DOCKER_IMAGE_TAG
+    - docker images
+    - echo $APEXBUGSERVER_PRODUCTION
+    - docker tag $DOCKER_IMAGE_TAG $APEXBUGSERVER_PRODUCTION
+    - echo $DOCKER_PASS | docker login --username $DOCKER_USER --password-stdin
+    - docker push $APEXBUGSERVER_PRODUCTION
+    - docker run --rm -d -it -p 3400:8080 $APEXBUGSERVER_PRODUCTION
+    - docker ps
+    - echo "App deployed to staging server at " $PRIVATE_SERVER
+    - ls -al
+  only:
+    - main
+
+
+stop-deploy-production:
+    stage: deploy-server-stage
+    image: docker:latest
+    services:
+      - docker:dind
+    tags:
+      - sbjwebapp
+    environment:
+      name: production
+      url: https://198.211.29.93
+    script:
+      - echo $APEXBUGSERVER_PRODUCTION
+      - docker stop $(docker ps -a -q --filter ancestor=$APEXBUGSERVER_PRODUCTION)
+      - echo APP on PRODUCTION SERVER $PRIVATE_SERVER stopped with image name $APEXBUGSERVER_PRODUCTION
+    only:
+      - main
+    when: manual
