@@ -295,7 +295,7 @@ def main():
     player1.add_to_hand(dealt_cards_dealer)
     # update hand
     player1.hand
-    updatehandStmt = session.update()
+    # updatehandStmt = session.update()
 
     session.commit()
 
