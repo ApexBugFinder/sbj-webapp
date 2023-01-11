@@ -101,8 +101,10 @@ build:
   services:
       - docker:dind
   before_script:
-
-    - echo $DOCKER_PASS | docker login --username $DOCKER_USER --password-stdin
+    - docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY
+    - echo $CI_REGISTRY_USER
+    - echo $DOCKER_PASS
+    # - | docker login --username $DOCKER_USER --password-stdin
   script:
     - echo $DOCKER_IMAGE_TAG
     - docker images
