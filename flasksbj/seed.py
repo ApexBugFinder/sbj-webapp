@@ -107,7 +107,7 @@ def main():
 
 
 
-    with open('../data.json') as cards_file:
+    with open('./data.json') as cards_file:
             cards = json.load(cards_file)
 
             for card in cards['deck']:
@@ -305,7 +305,7 @@ def main():
 
     # HAND to dealer
     player1.add_to_hand(dealt_cards_dealer)
- 
+
 
     # last_user = None  # save last user
     # for _ in range(USER_COUNT):

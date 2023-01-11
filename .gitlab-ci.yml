@@ -131,7 +131,7 @@ stop_feature:
       - echo $FEATURE_APP
       - echo $FEATURE_APP
       - echo FEATURE_APP
-      - docker stop $IMAGE_TAG:$FEATURE_APP
+      - docker stop $(docker ps -a -q --filter ancestor=$IMAGE_TAG:$FEATURE_APP)
       - echo $FEATURE APP at server $PRIVATE_SERVER is destroyed
     when: manual
 
