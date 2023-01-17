@@ -5,7 +5,7 @@ import datetime, random
 from sbj.db import db
 
 from enum import Enum
-
+from sbj.src.models.handstatus import HandStatus
 
 class GameStatus(Enum):
         PRE = 1
@@ -81,4 +81,45 @@ class Game(dbGame):
                 }
 
 
+        def set_score(self):
+                if self.dealer.hand.status == HandStatus.BLACKJACK.name and self.player.hand.status == HandStatus.BLACKJACK.name:
+                        self.results.draw()
+                elif self.dealer.hand.status == HandStatus.BLACKJACK.name:
+                        self.results.dealer_won()
+                elif self.player.hand.status == HandStatus.BLACKJACK.name:
+                        self.results.player_won()
+                elif self.player.hand.status == HandStatus.HOLD.name and self.dealer.hand.status == HandStatus.HOLD.name:
+                        p_low = 99
+                        p_high = 99
+                        player_low = 0
+                        d_low = 99
+                        d_high = 99
+                        dealer_low = 0
 
+                        if self.player.hand.value["high"] < 21:
+                                p_high = 21 - self.player.hand.value["high"]
+
+                        if self.player.hand.value["low"] < 21:
+                                p_low = 21 - self.player.hand.value["high"]
+
+                        if self.dealer.hand.value["high"] < 21:
+                                d_high = 21 - self.dealer.hand.value["high"]
+
+                        if self.dealer.hand.value["low"] < 21:
+                                d_low = 21 - self.dealer.hand.value["low"]
+
+                        player_low = min(p_high, p_low)
+                        dealer_low = min(d_low, d_high)
+
+                        if player_low == dealer_low:
+                                self.results.draw()
+                        elif player_low < dealer_low:
+                                self.results.player_won()
+                        else:
+                                self.results.dealer_won()
+                elif self.player.hand.status == HandStatus.BUST.name and self.dealer.hand.status == HandStatus.BUST.name:
+                        self.results.draw()
+                elif self.player.hand.status == HandStatus.BUST.name:
+                        self.results.dealer_won()
+                elif self.dealer.hand.status == HandStatus.BUST.name:
+                        self.results.player_won()
