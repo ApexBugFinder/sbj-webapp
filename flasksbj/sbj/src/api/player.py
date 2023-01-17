@@ -1,6 +1,5 @@
-# import sqlalchemy
 from flask import Blueprint, jsonify, abort, request
-# from sbj.src.models.player import Player
+
 from sbj.src.models.player import Player
 
 from sbj.db import db
@@ -13,13 +12,13 @@ engine = create_engine(
 
 Sesson = sessionmaker(bind=engine)
 session = Sesson()
-# from db import db
+
 bp = Blueprint('players', __name__, url_prefix='/players')
 
 
 
-
-@bp.route('create', methods=['POST'])
+# CREATE METHOD
+@bp.route('/create', methods=['POST'])
 def create():
         if 'name' not in request.json:
                 return abort(400, {'message':'Username not included'})
