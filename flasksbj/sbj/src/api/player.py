@@ -2,9 +2,17 @@
 from flask import Blueprint, jsonify, abort, request
 # from sbj.src.models.player import Player
 from sbj.src.models.player import Player
-# from flask_sqlalchemy import SQLAlchemy
-# db = SQLAlchemy()
+
 from sbj.db import db
+
+from sqlalchemy import create_engine
+from sqlalchemy.orm import sessionmaker
+
+engine = create_engine(
+    'postgresql://qitqsyhs:OTaHwkfOkI2eAyjAm4LCmabNUjk6kfMd@mahmud.db.elephantsql.com/qitqsyhs', echo=True)
+
+Sesson = sessionmaker(bind=engine)
+session = Sesson()
 # from db import db
 bp = Blueprint('players', __name__, url_prefix='/players')
 
@@ -21,8 +29,8 @@ def create():
               name = request.json['name']
         )
         try:
-              db.session.add(new_player)
-              db.session.commit()
+              session.add(new_player)
+              session.commit()
               return jsonify(new_player.serialize())
         except:
                 return jsonify(False, {'message': 'Something went wrong'})
@@ -50,7 +58,7 @@ def read_by_name(username:str):
         try:
                 results = []
 
-                players = db.session.query(Player).filter_by(name =username).limit(1)
+                players = session.query(Player).filter_by(name =username).limit(1)
 
                 for record in players:
                       print(record.serialize())
@@ -89,8 +97,8 @@ def update(id: int):
                 player.limit = int(request.json['limit'])
 
         try:
-                db.session.add(player)
-                db.session.commit()
+                session.add(player)
+                session.commit()
                 return jsonify(player.serialize())
         except:
                 return jsonify(False, {'message': f'Something went wrong updating {player.id} '})
@@ -99,11 +107,17 @@ def update(id: int):
 # DELETE
 @bp.route('/<int:id>', methods=['DELETE'])
 def delete(id:int):
-          p = Player.query.get_or_404(id)
-
-          try:
-                    db.session.delete(p)
-                    db.session.commit()
-                    return jsonify(True)
-          except:
-                    return jsonify(False, {'message':f'Something went wrong deleting user {p.id}'})
+        p = Player.query.get_or_404(id)
+        p = session.query(Player).where(Player.id == id)
+        result = []
+        for player in p:
+                result.append(player.serialize())
+        if len(result) > 0:
+                try:
+                        session.delete(p)
+                        session.commit()
+                        return jsonify(True)
+                except:
+                        return jsonify(False, {'message':f'Something went wrong deleting user {p.id}'})
+        else:
+                return jsonify(False, {"message": "Player does not exist"})

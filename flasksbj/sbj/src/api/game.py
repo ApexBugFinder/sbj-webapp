@@ -3,10 +3,19 @@ from flask import Blueprint, jsonify, abort, request
 from sbj.src.models.game import Game
 from sbj.src.models.player import Player
 from sbj.src.models.gameplayers import game_players_table
-from sbj.db import db
+
 # from db import db
 # from flask_sqlalchemy import SQLAlchemy
 # db = SQLAlchemy()
+from sqlalchemy import create_engine
+from sqlalchemy.orm import sessionmaker
+
+engine = create_engine(
+    'postgresql://qitqsyhs:OTaHwkfOkI2eAyjAm4LCmabNUjk6kfMd@mahmud.db.elephantsql.com/qitqsyhs', echo=True)
+
+Sesson = sessionmaker(bind=engine)
+session = Sesson()
+
 bp = Blueprint('games', __name__, url_prefix='/games')
 
 # CREATE
@@ -25,8 +34,8 @@ def create():
         players = {"player": player, "dealer": dealer}
         new_game = Game(players)
         try:
-            db.session.add(new_game)
-            db.session.commit()
+            session.add(new_game)
+            session.commit()
             return jsonify(new_game.serialize())
         except:
             return jsonify(False)
@@ -52,8 +61,8 @@ def get_by_id(id: int):
         j = Game.join(game_players_table, Game.c.id == game_players_table.c.game_id).join(Player, game_players_table.c.player_id == Player.c.id)
 
         stmt = select([Game, game_players_table, Player]).select_from(j).filter(Game.id ==g.id)
-        results = db.session.execute(stmt)
-        db.session.commit()
+        results = session.execute(stmt)
+        session.commit()
         rt = []
         for rec in results:
                 print(rec)
@@ -87,8 +96,8 @@ def delete(id: int):
     g = Game.query.get_or_404(id)
 
     try:
-        db.session.delete(g)
-        db.session.commit()
+        session.delete(g)
+        session.commit()
         return jsonify(True)
     except:
         return jsonify(False, {"message": "Something went wrong deleting game"})

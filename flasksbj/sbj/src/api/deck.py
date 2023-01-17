@@ -6,6 +6,15 @@ from sbj.src.models.deckcard import deck_cards_table
 from sbj.src.models.gamedeck import game_deck_table
 
 from sbj.db import db
+
+from sqlalchemy import create_engine, select, join
+from sqlalchemy.orm import sessionmaker
+
+engine = create_engine(
+    'postgresql://qitqsyhs:OTaHwkfOkI2eAyjAm4LCmabNUjk6kfMd@mahmud.db.elephantsql.com/qitqsyhs', echo=True)
+
+Sesson = sessionmaker(bind=engine)
+session = Sesson()
 # from src.models.deck import Deck
 # from src.models.card import Card
 # from src.models.deckcard import DeckCard
@@ -27,8 +36,8 @@ def create_deck():
         if 'game.id' in request.json:
                 game_id = request.json['game.id']
         new_deck = Deck()
-        db.session.add(new_deck)
-        db.session.commit()
+        session.add(new_deck)
+        session.commit()
         cardsQuery = Card.query.all()
         docs = []
         for card in cardsQuery:
@@ -40,16 +49,16 @@ def create_deck():
         try:
                         stmt2 = sqlalchemy.insert(game_deck_table).values(
                                 game_id=game_id, deck_id=new_deck.id)
-                        db.session.execute(stmt2)
+                        session.execute(stmt2)
 
                         rt = []
                         for card in docs:
                                 rt.append(card.serialize())
                                 stmt = sqlalchemy.insert(deck_cards_table).values(deck_id=card.deck_id, card_id=card.id, used=False)
-                                db.session.execute(stmt)
+                                session.execute(stmt)
 
 
-                        db.session.commit()
+                        session.commit()
                         return jsonify(rt)
 
 
@@ -59,12 +68,16 @@ def create_deck():
 # READ BY ID
 @bp.route('/read/<int:id>', methods=['GET'])
 def get_by_id(id:int):
-        d =Deck.query.get_or_404(id)
+        d = session.query(Deck).filter(Deck.id==id)
+        for record in d:
+                print(record.serialize())
         try:
-                j = deck_cards_table.join(Card)
-                stmt = select([deck_cards_table, Card]).select_from(j).filter(deck_cards_table.c.deck_id == d.id)
+                j = deck_cards_table.join(Card).join(Deck, Deck.id==deck_cards_table.c.deck_id)
+                select_stmt = select([deck_cards_table, Card, Card]).select_from(j)
 
-                result = db.session.execute(stmt)
+                filter_stmt = select_stmt.filter(deck_cards_table.c.deck_id == id)
+
+                result = session.execute(filter_stmt)
                 rt = []
                 for rec in result:
 
@@ -87,17 +100,17 @@ def get_by_id(id:int):
 # READ ALL
 @bp.route('/show_all', methods=['GET'])
 def index():
-    decks = Deck.query.all()
+
+    decks= session.query(Deck).filter(Deck.id==110)
     result = []
     for deck in decks:
         result.append(deck.serialize())
-    if len(decks) == 0:
+    if len(result) == 0:
         return jsonify(False)
     return jsonify(result)
 
 
-# UPDATE
-# N/A   N/A     N/A
+
 
 
 # DELETE
@@ -107,12 +120,12 @@ def delete(id: int):
         d = Deck.query.get_or_404(id)
 
         try:
-                db.session.delete(d)
-                db.session.commit()
+                session.delete(d)
+                session.commit()
                 stmt = sqlalchemy.delete(game_deck_table).where(deck_id = d.id)
-                db.session.execute(stmt)
+                session.execute(stmt)
                 stmt2 = sqlalchemy.delete(deck_cards_table).where(deck_id = d.id)
-                db.session.execute(stmt2)
+                session.execute(stmt2)
                 return jsonify(True)
         except:
                 jsonify(False, {"message":"Something went wrong with Deck Delete"})

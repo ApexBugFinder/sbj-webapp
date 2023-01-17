@@ -107,7 +107,7 @@ def main():
 
 
 
-    with open('./data.json') as cards_file:
+    with open('data.json') as cards_file:
             cards = json.load(cards_file)
 
             for card in cards['deck']:
@@ -261,6 +261,8 @@ def main():
             deckies_rt2.append(p)
 
     print("\n\n*******deckies Part 2: ", deckies_rt2)
+
+
     # SET GAME DECK
     game_init.setDeck(deckies_rt2)
     game_init.sortDeck()
@@ -272,15 +274,9 @@ def main():
     dealt_cards_dealer = game_init.deal_from_deck(2)
     update_cards_dealer = []
     for cd in dealt_cards_dealer:
-            print(cd.serialize())
-            a = {
-                "deck_id": cd.deck_id,
-                "card_id": cd.id,
-                "used": cd.used
+            print("CARDS DEALT TO DEALER: ", cd.serialize())
 
-            }
-            print(a)
-
+            update_cards_dealer.append(cd.serialize())
             updateStmt = sqlalchemy.update(deck_cards_table).where(
                 deck_cards_table.c.deck_id==cd.deck_id, deck_cards_table.c.card_id==cd.id).values(
                 deck_id=cd.deck_id, card_id=cd.id, used=cd.used
@@ -292,13 +288,50 @@ def main():
                 hand_id=game_init.dealer.hand.id, card_id=cd.id
             )
             session.execute(insertStmt)
+
+
     player1.add_to_hand(dealt_cards_dealer)
-    # update hand
-    player1.hand
-    # updatehandStmt = session.update()
+
+    dealt_cards_player = game_init.deal_from_deck(2)
+    update_cards_player = []
+    for cd in dealt_cards_player:
+                update_cards_player.append(cd.serialize())
+                updateStmt = sqlalchemy.update(deck_cards_table).where(
+                    deck_cards_table.c.deck_id == cd.deck_id, deck_cards_table.c.card_id==cd.id).values(
+                        deck_id=cd.deck_id, card_id=cd.id, used=True
+                    )
+                session.execute(updateStmt)
+                insertStmt = sqlalchemy.insert(hand_cards_table).values(hand_id=game_init.player.hand.id, card_id=cd.id)
+                session.execute(insertStmt)
+
+    
+    player2.add_to_hand(dealt_cards_player)
+
+    for card in player1.hand.cards:
+        print("DEALER CARD: ", card.serialize())
+
+    for card in player2.hand.cards:
+        print("PLAYER CARD:  ",card.serialize())
+
+    print("DEALER HAND H_VALUE: ", player1.hand.value['high'])
+    print("PLAYER HAND H_VALUE: ", player2.hand.value['high'])
+    print ("DEALER HAND STATUS: ", player1.hand.status)
+    print("PLAYER HAND STATUS: ", player2.hand.status)
+    # update hand after calculations
+    updatehandstmt1 = sqlalchemy.update(Hand).where(Hand.id==player1.hand.id).values(status=player1.hand.status,
+                                                                player_limit=player1.hand.player_limit, h_value=player1.hand.value['high'],
+                                                                l_value=player1.hand.value['low'])
+    session.execute(updatehandstmt1)
 
     session.commit()
+    updatehandstmt2 = sqlalchemy.update(Hand).where(Hand.id==player2.hand.id).values(status=player2.hand.status,
+                                                                    player_limit=player2.hand.player_limit, h_value=player2.hand.value['high'],
+                                                                    l_value=player2.hand.value['low'])
+    session.execute(updatehandstmt2)
 
+    session.commit()
+    print("Cards in Dealer's hand:", player1.hand.cards_count)
+    print("Cards in Player's hand:", player2.hand.cards_count)
 
 
 

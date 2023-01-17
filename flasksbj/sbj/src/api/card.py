@@ -3,7 +3,16 @@ from sbj.src.models.card import Card
 # from src.models.card import Card
 # from flask_sqlalchemy import SQLAlchemy
 # db = SQLAlchemy()
-from sbj.db import db
+# from sbj.db import db
+from sqlalchemy import create_engine
+from sqlalchemy.orm import sessionmaker
+
+engine = create_engine(
+    'postgresql://qitqsyhs:OTaHwkfOkI2eAyjAm4LCmabNUjk6kfMd@mahmud.db.elephantsql.com/qitqsyhs', echo=True)
+
+Sesson = sessionmaker(bind=engine)
+session = Sesson()
+
 bp = Blueprint('cards', __name__, url_prefix='/cards')
 
 
@@ -21,15 +30,16 @@ def create():
         suite=request.json['suite'],
         url=request.json['url']
         )
-        db.session.add(c)
-        db.session.commit()
+        session.add(c)
+        session.commit()
         return jsonify(c.serialize())
 
 
 # READ ALL
 @bp.route('/read/all', methods=['GET'])
 def index():
-        cards = Card.query.all()
+        # cards = Card.query.all()
+        cards = session.query(Card).all()
         result = []
         for card in cards:
                 result.append(card.serialize())
@@ -38,27 +48,23 @@ def index():
 # GET BY ID
 @bp.route('/read/<int:id>', methods=['GET'])
 def show_by_id(id:int):
-        c = Card.query.get_or_404(id)
+        c = session.query(Card).where(Card.id == id)
+        result = []
+        for card in c:
+                result.append(card.serialize())
 
-        return jsonify(c.serialize())
+        return jsonify(result)
 
 # UPDATE
 @bp.route('/<int:id>', methods=['PUT'])
 def updateCard(id:int):
         c = Card.query.get_or_404(id)
-        # if 'face' in request.json:
-        #     c.face = request.json['face']
-        # if 'suite' in request.json:
-        #     c.suite = request.json['suite']
-        # if 'h_value' in request.json:
-        #     c.h_value = request.json['h_value']
-        # if 'l_value' in request.json:
-        #     c.l_value = request.json['l_value']
+        
         if 'url' in request.json:
                 c.url = request.json['url']
         try:
-                db.session.add(c)
-                db.session.commit()
+                session.add(c)
+                session.commit()
                 return jsonify(c.serialize())
         except:
                 return jsonify(False)
@@ -69,8 +75,8 @@ def updateCard(id:int):
 def delete(id: int):
         c = Card.query.get_or_404(id)
         try:
-                db.session.delete(c)
-                db.session.commit()
+                session.delete(c)
+                session.commit()
                 return jsonify(True)
         except:
                 return jsonify(False)

@@ -19,9 +19,11 @@ class dbHand(db.Model):
 
 class Hand(dbHand):
             def __init__(self, lim, userid):
-                self.cards = set()
+                self.cards = []
                 # self.cards_count = self.cards_count()
                 self.value = {"high": 0, "low": 0}
+                self.h_value = None
+                self.l_value= None
                 self.has_ace = False
                 self.player_limit = lim
                 self.status = HandStatus.ACTIVE.name
@@ -38,9 +40,9 @@ class Hand(dbHand):
                 'id':self.id,
                 'status':self.status,
                 'player_limit': self.player_limit,
-                'h_value':self.value['high'],
-                'l_value':self.value['low'],
-                'user_id': self.user_id,
+                'h_value':self.h_value,
+                'l_value':self.l_value,
+          
 
                 }
 
@@ -62,15 +64,15 @@ class Hand(dbHand):
                                                       self.value["high"] += card.h_value
                                                       self.value["low"] += card.l_value
                                                       self.has_ace = True
-                                                      self.cards.add(card)
+                                                      self.cards.append(card)
                                           elif "A" in card.face and self.has_ace == True:
-                                                      self.value["high"] += card.l_value
+                                                      self.value["high"] += card.h_value
                                                       self.value["low"] += card.l_value
-                                                      self.cards.add(card)
+                                                      self.cards.append(card)
                                           else:
                                                       self.value["high"] += card.h_value
                                                       self.value["low"] += card.h_value
-                                                      self.cards.add(card)
+                                                      self.cards.append(card)
 
                         return self.manage_status()
 
