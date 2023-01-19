@@ -22,7 +22,7 @@ session = Sesson()
 # db = SQLAlchemy()
 from sqlalchemy import select,join
 
-bp = Blueprint('deckcards', __name__, url_prefix='/deckcards')
+bp = Blueprint('deckcards', __name__, url_prefix='/api/deckcards')
 
 
 # READ BY DECK ID

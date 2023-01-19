@@ -1,5 +1,5 @@
 from flask import Blueprint, jsonify, abort, request
-bp = Blueprint('results', __name__, url_prefix='/results')
+bp = Blueprint('results', __name__, url_prefix='/api/results')
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 

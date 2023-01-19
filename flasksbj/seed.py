@@ -120,7 +120,8 @@ def main():
                         newCard=Card(card['name'], 'Hearts', max(card['value']),min(card['value']),card['url'])
                     elif card['name'][0]=='S':
                         newCard=Card(card['name'], 'Spades', max(card['value']),min(card['value']),card['url'])
-
+                    elif card['name'][0]=='B':
+                        newCard=Card(card['name'], 'BACK', 0, 0, card['url'])
                     session.add(newCard)
 
             session.commit()
@@ -304,7 +305,7 @@ def main():
                 insertStmt = sqlalchemy.insert(hand_cards_table).values(hand_id=game_init.player.hand.id, card_id=cd.id)
                 session.execute(insertStmt)
 
-    
+
     player2.add_to_hand(dealt_cards_player)
 
     for card in player1.hand.cards:

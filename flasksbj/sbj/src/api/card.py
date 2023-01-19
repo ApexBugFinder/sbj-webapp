@@ -13,7 +13,7 @@ engine = create_engine(
 Sesson = sessionmaker(bind=engine)
 session = Sesson()
 
-bp = Blueprint('cards', __name__, url_prefix='/cards')
+bp = Blueprint('cards', __name__, url_prefix='/api/cards')
 
 
 
@@ -59,7 +59,7 @@ def show_by_id(id:int):
 @bp.route('/<int:id>', methods=['PUT'])
 def updateCard(id:int):
         c = Card.query.get_or_404(id)
-        
+
         if 'url' in request.json:
                 c.url = request.json['url']
         try:

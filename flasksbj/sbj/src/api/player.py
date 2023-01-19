@@ -13,7 +13,7 @@ engine = create_engine(
 Sesson = sessionmaker(bind=engine)
 session = Sesson()
 
-bp = Blueprint('players', __name__, url_prefix='/players')
+bp = Blueprint('players', __name__, url_prefix='/api/players')
 
 
 
@@ -56,18 +56,19 @@ def read_by_id(id: int):
 def read_by_name(username:str):
         try:
                 results = []
-
+                print ('USERNAME: ', username)
                 players = session.query(Player).filter_by(name =username).limit(1)
-
+                a = None
                 for record in players:
-                      print(record.serialize())
-                      results.append(record.serialize())
+                        print(record.serialize())
+                        a = record.serialize()
+                        results.append(record.serialize())
 
-
-                if len(results) ==0:
-                        return jsonify(False, {'message': 'Sorry, Player does not exist'})
-                else:
-                        return jsonify(results)
+                return a
+                # if len(results) ==0:
+                #         return jsonify(False, {'message': 'Sorry, Player does not exist'})
+                # else:
+                #         return jsonify(results)
         except:
                                 return jsonify(False, {'message': 'Something went wrong'})
 

@@ -24,7 +24,7 @@ session = Sesson()
 import sqlalchemy
 # from flask_sqlalchemy import SQLAlchemy
 # db = SQLAlchemy()
-bp = Blueprint('decks', __name__, url_prefix='/decks')
+bp = Blueprint('decks', __name__, url_prefix='/api/decks')
 
 
 

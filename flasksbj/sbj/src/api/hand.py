@@ -24,7 +24,7 @@ session = Sesson()
 # from src.models.handcards import hand_cards_table
 # from src.models.players_hand import players_hand_table
 
-bp = Blueprint('hands', __name__, url_prefix='/hands')
+bp = Blueprint('hands', __name__, url_prefix='/api/hands')
 
 
 # CREATE

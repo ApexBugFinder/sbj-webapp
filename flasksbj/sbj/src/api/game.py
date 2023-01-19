@@ -16,7 +16,7 @@ engine = create_engine(
 Sesson = sessionmaker(bind=engine)
 session = Sesson()
 
-bp = Blueprint('games', __name__, url_prefix='/games')
+bp = Blueprint('games', __name__, url_prefix='/api/games')
 
 # CREATE
 
