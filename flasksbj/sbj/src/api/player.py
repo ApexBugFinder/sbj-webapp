@@ -37,7 +37,7 @@ def create():
 # READ ALL
 @bp.route('/show_all', methods=['GET'])
 def index():
-        players = Player.query.all()
+        players = session.query(Player).all()
         result = []
         for player in players:
                 result.append(player.serialize())
