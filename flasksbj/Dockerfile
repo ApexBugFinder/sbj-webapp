@@ -20,7 +20,7 @@ COPY . /app
 # For more info, please refer to https://aka.ms/vscode-docker-python-configure-containers
 RUN adduser -u 5678 --disabled-password --gecos "" appuser && chown -R appuser /app
 USER appuser
-EXPOSE 5000 80
+EXPOSE 6000 5000
 # During debugging, this entry point will be overridden. For more information, please refer to https://aka.ms/vscode-docker-python-debug
 # CMD ["gunicorn", "--bind", "0.0.0.0:5000", "sbj.wsgi:app"]
 CMD ["python3", "-m", "flask", "--debug","run", "--host=127.0.0.1", "--port=5000"]
