@@ -23,4 +23,4 @@ USER appuser
 EXPOSE 5000 80
 # During debugging, this entry point will be overridden. For more information, please refer to https://aka.ms/vscode-docker-python-debug
 # CMD ["gunicorn", "--bind", "0.0.0.0:5000", "sbj.wsgi:app"]
-CMD ["python3", "-m", "flask", "run", "--host=127.0.0.1", "--port=5000"]
+CMD ["python3", "-m", "flask", "--debug","run", "--host=127.0.0.1", "--port=5000"]
