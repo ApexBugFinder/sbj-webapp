@@ -48,8 +48,11 @@ def index():
 #  READ by id
 @bp.route('read/<int:id>', methods=['GET'])
 def read_by_id(id: int):
-        p = Player.query.get_or_404(id)
-        return jsonify(p.serialize())
+        records = session.query(Player).filter(id = id)
+        results = []
+        for record in records:
+                results.append(record.serialize())
+        return jsonify(results[0])
 
 # READ BY Name
 @bp.route('read_by_name/<string:username>', methods=['GET'])
@@ -58,13 +61,15 @@ def read_by_name(username:str):
                 results = []
                 print ('USERNAME: ', username)
                 players = session.query(Player).filter_by(name =username).limit(1)
-                a = None
+
                 for record in players:
                         print(record.serialize())
-                        a = record.serialize()
+
                         results.append(record.serialize())
 
-                return a
+                if len(results) == 0:
+                        abort(400, {'message': 'Username does not exist'})
+                return jsonify(results[0])
                 # if len(results) ==0:
                 #         return jsonify(False, {'message': 'Sorry, Player does not exist'})
                 # else:
