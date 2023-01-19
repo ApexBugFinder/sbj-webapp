@@ -75,7 +75,7 @@ def read_by_name(username:str):
                 # else:
                 #         return jsonify(results)
         except:
-                                return jsonify(False, {'message': 'Something went wrong'})
+                                return jsonify(False, {'message': 'Something terrible  went wrong'})
 
 # UPDATE
 @bp.route('update/<int:id>', methods=['PUT'])
