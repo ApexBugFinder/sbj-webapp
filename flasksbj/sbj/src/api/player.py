@@ -60,7 +60,7 @@ def read_by_name(username:str):
         try:
                 results = []
                 print ('USERNAME: ', username)
-                players = session.query(Player).filter_by(name =username).limit(1)
+                players = session.query(Player).filter_by(name=username).limit(1)
 
                 for record in players:
                         print(record.serialize())
@@ -75,13 +75,16 @@ def read_by_name(username:str):
                 # else:
                 #         return jsonify(results)
         except:
-                                return abort(400, {'message': 'Something definitely went wrong'})
+                                return abort(400,  'Something definitely went wrong')
 
 # UPDATE
 @bp.route('update/<int:id>', methods=['PUT'])
 def update(id: int):
-        player = Player.query.get_or_404(id)
 
+        q = session.query(Player).filter(id=id).limit(1)
+        aplayer = None
+        for record in q:
+                aplayer = record.serialize()
         #  User name is being updated
         if 'name' in request.json:
                 # Length of user name
@@ -89,7 +92,7 @@ def update(id: int):
                         abort(400, {'message': 'Username has to have 5 or more characters'})
 
                 # Username update
-                player.name = request.json['name']
+                aplayer.name = request.json['name']
 
         # Limit is being updated
         elif 'limit' in request.json:
@@ -99,21 +102,21 @@ def update(id: int):
                 elif request.json['limit'] > 21 or request.json['limit'] < 0:
                         abort(400, {'message': 'Limit out of Range'})
                 # Update Limit
-                player.limit = int(request.json['limit'])
+                aplayer.limit = int(request.json['limit'])
 
         try:
-                session.add(player)
+                session.add(aplayer)
                 session.commit()
-                return jsonify(player.serialize())
+                return jsonify(aplayer.serialize())
         except:
-                return jsonify(False, {'message': f'Something went wrong updating {player.id} '})
+                return jsonify(False, {'message': f'Something went wrong updating {aplayer.id} '})
 
 
 # DELETE
 @bp.route('/<int:id>', methods=['DELETE'])
 def delete(id:int):
-        p = Player.query.get_or_404(id)
-        p = session.query(Player).where(Player.id == id)
+
+        p = session.query(Player).where(Player.id == id).limit(1)
         result = []
         for player in p:
                 result.append(player.serialize())
@@ -123,6 +126,6 @@ def delete(id:int):
                         session.commit()
                         return jsonify(True)
                 except:
-                        return jsonify(False, {'message':f'Something went wrong deleting user {p.id}'})
+                        return abort(400, f"Something went wrong deleting user {p.id}")
         else:
                 return jsonify(False, {"message": "Player does not exist"})
