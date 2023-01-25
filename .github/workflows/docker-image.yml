@@ -3,7 +3,7 @@ env:
    USERNAME: ${{vars.AZURE_REGISTRY_NAME}}
    SERVER: ${{vars.AZURE_REGISTRY_SERVER}}
    PASS: ${{vars.AZURE_REGISTRY_PASS}}
-   IMAGE: ${{SERVER}}/sbj-webapp:v1
+   IMAGE: ${{vars.AZURE_REGISTRY_SERVER}}/sbj-webapp:v1
 on:
   push:
     branches: [ "main" ]
@@ -19,7 +19,7 @@ jobs:
     steps:
     - uses: actions/checkout@v3
     - name: Check Variables
-      run:    echo 2. ${{SERVER}}
+      run:    echo 2. $SERVER
     - name: Build the Docker image
       run: docker build . --file Dockerfile --tag $IMAGE
     - name: docker login
