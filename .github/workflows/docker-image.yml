@@ -23,7 +23,7 @@ jobs:
     - name: Build the Docker image
       run: docker build . --file Dockerfile --tag $IMAGE
     - name: docker login
-      run: az acr login --name $USERNAME
+      run: az acr login --name sbj21registry
     - name: Push image
       run: docker push $IMAGE
     - name: Job Complete
