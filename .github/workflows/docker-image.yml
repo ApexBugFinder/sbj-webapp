@@ -3,7 +3,7 @@ env:
    USERNAME: ${{vars.AZURE_REGISTRY_NAME}}
    SERVER: ${{vars.AZURE_REGISTRY_SERVER}}
    PASS: ${{vars.AZURE_REGISTRY_PASS}}
-   IMAGE: $SERVER/sbj-webapp:v1
+   IMAGE: ${{SERVER}}/sbj-webapp:v1
 on:
   push:
     branches: [ "main" ]
