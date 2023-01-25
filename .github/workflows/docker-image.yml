@@ -1,9 +1,9 @@
 name: Docker Image CI
 env:
-   USERNAME: ${{vars.AZURE_REGISTRY_NAME}}
+   USERNAME: ${{vars.AZURE_REGISTRY_UNAME}}
    SERVER: ${{vars.AZURE_REGISTRY_SERVER}}
    PASS: ${{vars.AZURE_REGISTRY_PASS}}
-   IMAGE: ${{vars.AZURE_REGISTRY_SERVER}}/sbj-webapp:v1
+   IMAGE: ${{vars.AZURE_REGISTRY_SERVER}}/${{vars.AZURE_REGISTRY_REPO}}:v1
 on:
   push:
     branches: [ "main" ]
