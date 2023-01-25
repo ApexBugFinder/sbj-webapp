@@ -25,12 +25,12 @@ def create():
         if len(request.json['name'])<=3:
                 return abort(400, {'message': 'Username too short'})
         new_player = Player(
-              name = request.json['name']
+                name = request.json['name']
         )
         try:
-              session.add(new_player)
-              session.commit()
-              return jsonify(new_player.serialize())
+                session.add(new_player)
+                session.commit()
+                return jsonify(new_player.serialize())
         except:
                 return jsonify(False, {'message': 'Something went wrong'})
 
@@ -76,10 +76,7 @@ def read_by_name(username:str):
                 if len(results) == 0:
                         abort(400, {'message': 'Username does not exist'})
                 return jsonify(results[0])
-                # if len(results) ==0:
-                #         return jsonify(False, {'message': 'Sorry, Player does not exist'})
-                # else:
-                #         return jsonify(results)
+
         except:
                                 return abort(400,  'Something definitely went wrong')
 
@@ -92,6 +89,8 @@ def update(id: int):
         for record in q:
                 aplayer = record.serialize()
         #  User name is being updated
+        if aplayer == None:
+                abort(400 , "User does not exist")
         if 'name' in request.json:
                 # Length of user name
                 if len(request.json['name']) < 5:
