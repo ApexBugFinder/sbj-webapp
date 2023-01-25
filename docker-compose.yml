@@ -1,7 +1,7 @@
 version: '3.4'
 
 services:
-  sovereignblkv2:
+  sbj-webapp:
     image: sovereignblkv2
     build:
       context: .
