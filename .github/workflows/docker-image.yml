@@ -1,6 +1,9 @@
 name: Docker Image CI
 env:
-   TITLE: ${{vars.AZURE_REGISTRY_NAME}}
+   USERNAME: ${{vars.AZURE_REGISTRY_NAME}}
+   SERVER: ${{vars.AZURE_REGISTRY_SERVER}}
+   PASS: ${{vars.AZURE_REGISTRY_PASS}}
+   IMAGE: $SERVER/sbj-webapp:v1
 on:
   push:
     branches: [ "main" ]
@@ -16,14 +19,13 @@ jobs:
     steps:
     - uses: actions/checkout@v3
     - name: Check Variables
-      # 1. $AZURE_REGISTRY_NAME   3. ${AZURE_REGISTRY_NAME}
-      run:    echo 2. $TITLE
+      run:    echo 2. $SERVER
     - name: Build the Docker image
-      run: docker build . --file Dockerfile --tag sbj21registry.azurecr.io/sbj-webapp:v1
+      run: docker build . --file Dockerfile --tag $IMAGE
     - name: docker login
-      run: $AZURE_REGISTRY_PASS | docker login -u $AZURE_REGISTRY_NAME $AZURE_REGISTRY_SERVER
+      run: $PASS | docker login -u $USERNAME $SERVER
     - name: Push image
-      run: docker push sbj21registry.azurecr.io/sbj-webapp:v1
+      run: docker push $IMAGE
     - name: Job Complete
       run : echo "Docker build and Push complete"
 
