@@ -19,7 +19,7 @@ jobs:
     steps:
     - uses: actions/checkout@v3
     - name: Check Variables
-      run:    echo 2. $SERVER
+      run:    echo 2. ${{SERVER}}
     - name: Build the Docker image
       run: docker build . --file Dockerfile --tag $IMAGE
     - name: docker login
