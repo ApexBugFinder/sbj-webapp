@@ -2,9 +2,9 @@ name: Docker Image CI
 
 on:
   push:
-    branches: [ "feature-deployfeature" ]
+    branches: [ "main" ]
   pull_request:
-    branches: [ "feature-deployfeature" ]
+    branches: [ "main" ]
 
 jobs:
 
@@ -16,3 +16,8 @@ jobs:
     - uses: actions/checkout@v3
     - name: Build the Docker image
       run: docker build . --file Dockerfile --tag sbj21registry.azurecr.io/sbj-webapp:v1
+    - name: Push image
+      run: docker push sbj21registry.azurecr.io/sbj-webapp:v1
+    - name: Job Complete
+      run : echo "Docker build and Push complete"
+
