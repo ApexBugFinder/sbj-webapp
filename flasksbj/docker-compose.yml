@@ -2,7 +2,7 @@ version: '3.4'
 
 services:
   flasksbj:
-    image: sbj-webapp:latest
+    image:  sbj21registry.azurecr.io/sbj-webapp:latest
     stdin_open: true # docker run -i
     tty: true        # docker run -t
 
