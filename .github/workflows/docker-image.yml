@@ -1,6 +1,6 @@
 name: Docker Image CI
 env:
-   TITLE: $AZURE_REGISTRY_NAME
+   TITLE: ${{vars.AZURE_REGISTRY_NAME}}
 on:
   push:
     branches: [ "main" ]
