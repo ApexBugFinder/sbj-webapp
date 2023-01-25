@@ -23,7 +23,7 @@ jobs:
     - name: Build the Docker image
       run: docker build . --file Dockerfile --tag $IMAGE
     - name: docker login
-      run: ${{vars.AZURE_REGISTRY_PASS}} | docker login -u $USERNAME $SERVER
+      run: echo ${{vars.AZURE_REGISTRY_PASS}} | docker login -u $USERNAME $SERVER
     - name: Push image
       run: docker push $IMAGE
     - name: Job Complete
