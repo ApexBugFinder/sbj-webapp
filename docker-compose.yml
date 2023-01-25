@@ -1,0 +1,10 @@
+version: '3.4'
+
+services:
+  sovereignblkv2:
+    image: sovereignblkv2
+    build:
+      context: .
+      dockerfile: ./Dockerfile
+    ports:
+      - 6000:5000
