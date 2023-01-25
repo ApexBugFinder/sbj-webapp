@@ -1,6 +1,6 @@
 name: Docker Image CI
 env:
-   USERNAME: ${{vars.AZURE_REGISTRY_UNAME}}
+   USERNAME: ${{vars.AZURE_REGISTRY_NAME}}
    SERVER: ${{vars.AZURE_REGISTRY_SERVER}}
    PASS: ${{vars.AZURE_REGISTRY_PASS}}
    IMAGE: ${{vars.AZURE_REGISTRY_SERVER}}/${{vars.AZURE_REGISTRY_REPO}}:v1
