@@ -15,8 +15,8 @@ jobs:
     steps:
     - uses: actions/checkout@v3
     - name: Check Variables
-      # 1. $AZURE_REGISTRY_NAME   3. ${$AZURE_REGISTRY_NAME}
-      run:    echo "2. ${{$AZURE_REGISTRY_NAME}}"
+      # 1. $AZURE_REGISTRY_NAME   3. ${AZURE_REGISTRY_NAME}
+      run:    echo "2. $AZURE_REGISTRY_NAME"
     - name: Build the Docker image
       run: docker build . --file Dockerfile --tag sbj21registry.azurecr.io/sbj-webapp:v1
     - name: docker login
