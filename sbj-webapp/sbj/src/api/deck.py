@@ -30,9 +30,9 @@ CORS(bp)
 def create_deck():
 
         game_id = request.json['game.id']
-        print('HELLLLLLLO: ', game_id)
+
         if not game_id:
-               abort(400, "Must include game ID")
+                abort(400, "Must include game ID")
         new_deck = Deck()
         session.add(new_deck)
         session.commit()
@@ -104,7 +104,7 @@ def index():
     for deck in decks:
         result.append(deck.serialize())
     if len(result) == 0:
-        return jsonify(False)
+        return jsonify(False, {"message": "There are no decks"})
     return jsonify(result)
 
 

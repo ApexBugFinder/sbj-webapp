@@ -21,8 +21,14 @@ CORS(bp)
 # CREATE
 @bp.route('/', methods=['POST'])
 def create():
-        if 'face' not in request.json or 'suite'not in request.json or 'url' not in request.json:
-                return abort(400)
+        if 'face' not in request.json:
+                return abort(400, "face is a required Card Property in order to post")
+
+
+        if  'suite'not in request.json :
+                return abort(400, "suite is a required Card Property in order to post")
+        if 'url' not in request.json:
+                return abort(400, "url is a required Card Property in order to post")
 
         c = Card(
         face=request.json['face'],

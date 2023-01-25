@@ -31,9 +31,9 @@ def create():
     else:
 
         if 'player.id' not in request.json:
-            return abort(400, 'player id is not in request.json')
+            return abort(400, 'Player ID is not in request.json')
         elif 'dealer.id' not in request.json:
-            return abort(400, 'dealer is not in request.json')
+            return abort(400, 'Dealer ID is not in request.json')
         else:
             # Collect IDs
             pid = request.json['player.id']
@@ -61,12 +61,6 @@ def create():
             print('NEW GAME STARTED AT: ', new_game.started_at)
             try:
 
-                # insertstmt = sqlalchemy.insert(Game).values(
-                #     game_status=new_game.game_status,
-                #     started_at=new_game.started_at
-                #     )
-
-
                 session.add(new_game)
                 session.commit()
 
@@ -91,7 +85,7 @@ def create():
 @bp.route('/show_all', methods=['GET'])
 def index():
     games = session.query(Game).all()
-    
+
     result = []
     for game in games:
         result.append(game.serialize())
@@ -103,7 +97,11 @@ def index():
 # GET BY ID
 @bp.route('/read/<int:id>', methods=['GET'])
 def get_by_id(id: int):
-    g = Game.query.get_or_404(id)
+
+    query = session.query(Game).filter(Game.id == id)
+    g = None
+    for record in query:
+        g = record.serialize()
     print(g)
     try:
         j = Game.join(game_players_table, Game.c.id == game_players_table.c.game_id).join(Player, game_players_table.c.player_id == Player.c.id)
@@ -132,20 +130,38 @@ def get_by_id(id: int):
 # UPDATE
 @bp.route('/update/<int:id>', methods=['PUT'])
 def update(id: int):
-    g = Game.query.get_or_404(id)
 
-    if 'game_status' in request.json:
-        g.game_status = request.json['game_status']
+        query = session.query(Game).filter(Game.id == id)
+        g = None
+        for record in query:
+            g = record.serialize()
+        print(g)
 
+        try:
+            if 'game_status' in request.json:
+                g.game_status = request.json['game_status']
+            else:
+                abort(400, "Game Status is a required and only field you can update")
+
+            session.add(g)
+            session.commit()
+            return jsonify(g)
+        except:
+            return jsonify(g, {"message": "Update failed"})
 
 # DELETE
 @bp.route('/delete/<int:id>', methods=['DELETE'])
 def delete(id: int):
-    g = Game.query.get_or_404(id)
 
-    try:
-        session.delete(g)
-        session.commit()
-        return jsonify(True)
-    except:
-        return jsonify(False, {"message": "Something went wrong deleting game"})
+        query = session.query(Game).filter(Game.id == id)
+        g = None
+        for record in query:
+            g = record.serialize()
+        print(g)
+
+        try:
+            session.delete(g)
+            session.commit()
+            return jsonify(True)
+        except:
+            return jsonify(False, {"message": "Something went wrong deleting game"})
