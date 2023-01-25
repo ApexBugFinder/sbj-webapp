@@ -32,11 +32,17 @@ CORS(bp)
 def createHand():
         new_hand = None
         if 'user.id' in request.json:
-                u = Player.query.get_or_404(request.json['user.id'])
+                player_query = session.query(Player).filter(Player.id == request.json['user.id'])
+                u = None
+                for record in player_query:
+                        u = record.serialize()
                 new_hand = Hand(lim=u.limit)
 
         if 'game.id' in request.json:
-                g = Game.query.get_or_404(request.json['game.id'])
+                game_query = session.query(Game).filter_by(Game.id == request.json['game.id'])
+                g = None
+                for record in game_query:
+                        g = record.serialize()
                 new_hand.set_game_id(g.id)
 
         if 'cards' in request.json:
@@ -64,17 +70,7 @@ def createHand():
                 return jsonify(new_hand.serialize())
         except:
                 return jsonify(False)
-# # ADD CARDS TO HAND
-# @bp.route('/add/<int:id>', methods=['POST'])
-# def addtohands(id: int):
-#        # 1. Query Hand
-#        h = session.query(Hand).where(Hand.id==id)
-# #        .first_or_404()
 
-#        # 2. Add cards to hand
-#         data = request.json.dumps
-#         for record in data:
-#                 newHand = Hand(record['player_limit'], userid=record['userid'])
 
 
 # READ ALL
@@ -164,26 +160,58 @@ def get_handinfo_by_id(id:int):
 # ADD TO HAND
 @bp.route('/add_to_hand/<int:id>', methods=['PUT'])
 def add_to_hand(id: int):
-        # QUERY CARDS:
-        cards = []
-        for record in request.json:
-                print(record['card.id'])
 
+        # QUERY HAND:
+        q_hand = session.query(Hand).filter(Hand.id == id)
+        hand = None
+        for record in q_hand:
+                hand: Hand = record.serialize()
+                print(record.serialize())
+
+        # QUERY CARDS ALREADY IN HAND:
+        cards_already_in_hand = []
+        cards_already_in_hand_query = session.query(hand_cards_table).filter(hand_cards_table.c.hand_id ==id)
+        for record in cards_already_in_hand_query:
+                cardInfo = record['card_id']
+                card_info_query = session.query(Card).filter(Card.id == cardInfo)
+                for record in card_info_query:
+                        cards_already_in_hand.append(record.serialize())
+
+        # QUERY INCOMING CARDS AND ADD TO HAND CARDS TABLE:
+        incoming_cards = []
+
+        for record in request.json:
                 p = session.query(Card).filter(Card.id==record['card.id'])
                 c = None
                 for q_rec in p:
-                        c=q_rec.serialize()
-                        cards.append(c)
-                        print(c)
-        print('CARDS TO ADD: ', cards)
+                        c:Card = q_rec.serialize()
+                        incoming_cards.append(c)
+                        insert_card_stmt = hand_cards_table.insert().values(
+                                hand_id=hand.id, card_id=c.id
+                        )
+                        session.execute(insert_card_stmt)
+        print('CARDS IN HAND ALREADY: ', cards_already_in_hand)
+        print('CARDS TO ADD: ', incoming_cards)
 
-        # QUERY HAND:
-        q_hand = session.query(Hand).filter(Hand.id ==id)
-        hand=None
-        for record in q_hand:
-                print(record.serialize())
+        # CREATE RET OBJECT and UPDATED HAND & CARDS
+        all_cards =  []
+        all_cards.append(cards_already_in_hand)
+        all_cards.append(incoming_cards)
+        hand.add_to_hand(all_cards)
+
+        #
+        rt = dict()
+        rt['hand'] = hand.serialize()
+        rt['cards'].append(all_cards)
+
+
+        # INSERT INTO hand_cards_table
+
+
+
+
         try:
-                return jsonify(True)
+                return jsonify(rt)
         except:
                 return jsonify(False)
 
@@ -192,35 +220,44 @@ def add_to_hand(id: int):
 # UPDATE
 @bp.route('/<int:id>', methods=['PUT'])
 def update(id: int):
-        h = Hand.query.get_or_404(id)
-
-        if 'status' in request.json:
-                h.status = request.json['status']
-
-        if 'player_limit' in request.json:
-                h.player_limit = request.json['player_limit']
-
-        if 'user.id' in request.json:
-                h.user_id  = request.json['user.id']
-
-        if 'game.id' in request.json:
-                h.game_id = request.json['game.id']
-
         try:
-                session.add(h)
+                q_hand = session.query(Hand).filter(Hand.id == id)
+                hand = None
+                for record in q_hand:
+                        hand: Hand = record.serialize()
+                        print(record.serialize())
+
+                if 'status' in request.json:
+                        hand.status = request.json['status']
+
+                if 'player_limit' in request.json:
+                        hand.player_limit = request.json['player_limit']
+
+                if 'user.id' in request.json:
+                        hand.user_id  = request.json['user.id']
+
+                if 'game.id' in request.json:
+                        hand.game_id = request.json['game.id']
+
+
+                session.add(hand)
                 session.commit()
-                return jsonify(True)
+                return jsonify(hand.serialize())
         except:
-                return jsonify(False)
+                return jsonify(False, {"message": "Something went wrong updating hand"})
 
 
 # DELETE
 @bp.route('/delete/<int:id>', methods =  ['DELETE'])
 def delete(id: int):
-        h = Hand.query.get_or_404(id)
+        q_hand = session.query(Hand).filter(Hand.id == id)
+        hand = None
+        for record in q_hand:
+                hand: Hand = record.serialize()
+                print(record.serialize())
 
         try:
-                session.delete(h)
+                session.delete(hand)
                 session.commit()
         except:
                 return jsonify(False, {"message": "Something went wrong with deleting your hand"})

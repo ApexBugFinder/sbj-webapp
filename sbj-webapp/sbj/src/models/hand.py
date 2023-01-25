@@ -19,35 +19,35 @@ class dbHand(db.Model):
 
 class Hand(dbHand):
             def __init__(self, lim, userid):
-                self.cards = []
-                # self.cards_count = self.cards_count()
-                self.value = {"high": 0, "low": 0}
-                self.h_value = None
-                self.l_value= None
-                self.has_ace = False
-                self.player_limit = lim
-                self.status = HandStatus.ACTIVE.name
-                self.user_id = userid
+                  self.cards = []
+                  # self.cards_count = self.cards_count()
+                  self.value = {"high": 0, "low": 0}
+                  self.h_value = None
+                  self.l_value= None
+                  self.has_ace = False
+                  self.player_limit = lim
+                  self.status = HandStatus.ACTIVE.name
+                  self.user_id = userid
 
 
 
             def setHandLimit(self, lim):
-                self.player_limit = lim
+                  self.player_limit = lim
 
 
             def serialize(self):
-                return {
-                'id':self.id,
-                'status':self.status,
-                'player_limit': self.player_limit,
-                'h_value':self.h_value,
-                'l_value':self.l_value,
+                  return {
+                  'id':self.id,
+                  'status':self.status,
+                  'player_limit': self.player_limit,
+                  'h_value':self.h_value,
+                  'l_value':self.l_value,
 
 
-                }
+                  }
 
             def set_game_id(self, gameid):
-                    self.game_id = gameid
+                        self.game_id = gameid
 
             def add_to_hand(self, cards):
                         # If 1st card is the first card that is an ACE then add to  hand and use high value
