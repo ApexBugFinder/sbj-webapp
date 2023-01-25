@@ -3,6 +3,8 @@ version: '3.4'
 services:
   sbj-webapp:
     image: sovereignblkv2
+    stdin_open: true # docker run -i
+    tty: true
     build:
       context: .
       dockerfile: ./Dockerfile
