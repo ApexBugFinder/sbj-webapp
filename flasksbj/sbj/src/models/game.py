@@ -1,8 +1,8 @@
 from enum import Enum
 import datetime, random
 
-# from db import db
-from sbj.db import db
+from sbj.app import db
+# from sbj.db import db
 
 from enum import Enum
 from sbj.src.models.handstatus import HandStatus
@@ -35,17 +35,23 @@ class Game(dbGame):
                 self.game_status = GameStatus.PRE.name
                 self.player = players["player"]
 
-                self.player_id = self.player.id
+
+                self.player_id = None
                 print('*****HELLO PLAYER ID: ', self.player_id)
                 self.dealer=players["dealer"]
-                self.dealer_id = self.dealer.id
+                self.dealer_id = None
                 print('*****HELLO DEALER ID: ', self.dealer_id)
                 # self.results=Result(players)
                 self.deck = None
                 self.play = False
                 self.used_pile =[]
 
+        def setplayerId(self,id):
+                self.player_id = id
 
+        def setdealerId(self, id):
+            self.dealer_id = id
+            
         def sortDeck(self):
                 random.shuffle(self.deck)
 

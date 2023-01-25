@@ -1,4 +1,5 @@
 from flask import Blueprint, jsonify, abort, request
+from flask_cors import CORS
 from sbj.src.models.deck import Deck
 from sbj.src.models.card import Card
 from sbj.src.models.deckcard import DeckCard
@@ -15,17 +16,12 @@ engine = create_engine(
 
 Sesson = sessionmaker(bind=engine)
 session = Sesson()
-# from src.models.deck import Deck
-# from src.models.card import Card
-# from src.models.deckcard import DeckCard
-# from src.models.deckcard import deck_cards_table
-# from src.models.gamedeck import game_deck_table
+
 
 import sqlalchemy
-# from flask_sqlalchemy import SQLAlchemy
-# db = SQLAlchemy()
-bp = Blueprint('decks', __name__, url_prefix='/api/decks')
 
+bp = Blueprint('decks', __name__, url_prefix='/api/decks')
+CORS(bp)
 
 
 
@@ -33,17 +29,19 @@ bp = Blueprint('decks', __name__, url_prefix='/api/decks')
 @bp.route('/create', methods=['POST'])
 def create_deck():
 
-        if 'game.id' in request.json:
-                game_id = request.json['game.id']
+        game_id = request.json['game.id']
+        print('HELLLLLLLO: ', game_id)
+        if not game_id:
+               abort(400, "Must include game ID")
         new_deck = Deck()
         session.add(new_deck)
         session.commit()
-        cardsQuery = Card.query.all()
+        cardsQuery = session.query(Card).all()
         docs = []
         for card in cardsQuery:
 
                 new_card = DeckCard(
-                        card, deck_id=new_deck.id)
+                        card, deck_id=new_deck.id, used=False)
                 print(new_card.serialize())
                 docs.append(new_card)
         try:
@@ -54,7 +52,7 @@ def create_deck():
                         rt = []
                         for card in docs:
                                 rt.append(card.serialize())
-                                stmt = sqlalchemy.insert(deck_cards_table).values(deck_id=card.deck_id, card_id=card.id, used=False)
+                                stmt = sqlalchemy.insert(deck_cards_table).values(deck_id=card.deck_id, card_id=card.id, used=card.used)
                                 session.execute(stmt)
 
 

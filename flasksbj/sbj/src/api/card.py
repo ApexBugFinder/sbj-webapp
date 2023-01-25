@@ -6,6 +6,7 @@ from sbj.src.models.card import Card
 # from sbj.db import db
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
+from flask_cors import CORS
 
 engine = create_engine(
     'postgresql://qitqsyhs:OTaHwkfOkI2eAyjAm4LCmabNUjk6kfMd@mahmud.db.elephantsql.com/qitqsyhs', echo=True)
@@ -14,7 +15,7 @@ Sesson = sessionmaker(bind=engine)
 session = Sesson()
 
 bp = Blueprint('cards', __name__, url_prefix='/api/cards')
-
+CORS(bp)
 
 
 # CREATE
@@ -58,8 +59,10 @@ def show_by_id(id:int):
 # UPDATE
 @bp.route('/<int:id>', methods=['PUT'])
 def updateCard(id:int):
-        c = Card.query.get_or_404(id)
-
+        q = session.query(Card).filter(id=id)
+        c = None
+        for record in q:
+                c = record.serialize()
         if 'url' in request.json:
                 c.url = request.json['url']
         try:
@@ -73,12 +76,15 @@ def updateCard(id:int):
 # DELETE
 @bp.route('/<int:id>', methods=['DELETE'])
 def delete(id: int):
-        c = Card.query.get_or_404(id)
-        try:
-                session.delete(c)
-                session.commit()
-                return jsonify(True)
-        except:
-                return jsonify(False)
+        q = session.query(Card).filter(id=id)
+        c = None
+        for record in q:
+                c = record.serialize()
+                try:
+                        session.delete(c)
+                        session.commit()
+                        return jsonify(True)
+                except:
+                        return jsonify(False)
 
 

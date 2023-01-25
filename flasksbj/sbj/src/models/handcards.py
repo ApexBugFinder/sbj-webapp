@@ -1,6 +1,6 @@
 import datetime
-from sbj.db import db
-# from db import db
+# from sbj.db import db
+from sbj.app import db
 
 hand_cards_table = db.Table(
     'handcards',

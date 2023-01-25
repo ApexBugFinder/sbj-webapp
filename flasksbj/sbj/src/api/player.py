@@ -1,5 +1,5 @@
 from flask import Blueprint, jsonify, abort, request
-
+from flask_cors import CORS
 from sbj.src.models.player import Player
 
 from sbj.db import db
@@ -14,7 +14,7 @@ Sesson = sessionmaker(bind=engine)
 session = Sesson()
 
 bp = Blueprint('players', __name__, url_prefix='/api/players')
-
+CORS(bp)
 
 
 # CREATE METHOD
@@ -46,6 +46,9 @@ def index():
         return jsonify(result)
 
 #  READ by id
+
+
+
 @bp.route('read/<int:id>', methods=['GET'])
 def read_by_id(id: int):
         records = session.query(Player).filter(id = id)
@@ -55,6 +58,9 @@ def read_by_id(id: int):
         return jsonify(results[0])
 
 # READ BY Name
+
+
+
 @bp.route('read_by_name/<string:username>', methods=['GET'])
 def read_by_name(username:str):
         try:

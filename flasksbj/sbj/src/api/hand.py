@@ -1,13 +1,13 @@
 # import sqlalchemy
 from flask import Blueprint, jsonify, abort, request
-
+from flask_cors import CORS
 from sbj.src.models.card import Card
 from sbj.src.models.game import Game
 from sbj.src.models.player import Player
 from sbj.src.models.hand import Hand
 from sbj.src.models.handcards import hand_cards_table
 from sbj.src.models.players_hand import players_hand_table
-
+import sqlalchemy
 from sqlalchemy import create_engine, select, join
 from sqlalchemy.orm import sessionmaker
 
@@ -25,7 +25,7 @@ session = Sesson()
 # from src.models.players_hand import players_hand_table
 
 bp = Blueprint('hands', __name__, url_prefix='/api/hands')
-
+CORS(bp)
 
 # CREATE
 @bp.route('/create', methods=['POST'])

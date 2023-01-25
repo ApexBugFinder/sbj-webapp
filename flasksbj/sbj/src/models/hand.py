@@ -1,8 +1,8 @@
 import datetime
 from enum import Enum
 from .handstatus import HandStatus
-from sbj.db import db
-# from db import db
+# from sbj.db import db
+from sbj.app import db
 
 class dbHand(db.Model):
     __tablename__ = "hands"
@@ -42,7 +42,7 @@ class Hand(dbHand):
                 'player_limit': self.player_limit,
                 'h_value':self.h_value,
                 'l_value':self.l_value,
-          
+
 
                 }
 

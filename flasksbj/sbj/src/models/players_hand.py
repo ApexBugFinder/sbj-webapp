@@ -1,5 +1,5 @@
-from sbj.db import db
-# from db import db
+# from sbj.db import db
+from sbj.app import db
 
 players_hand_table = db.Table(
     'playershands',

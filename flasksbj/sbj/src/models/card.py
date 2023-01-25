@@ -1,8 +1,8 @@
 # from . import db
 # from sbj.src.dbObjects.card import dbCard
 # from sbj.app import db
-from sbj.db import db
-# from db import db
+# from sbj.db import db
+from sbj.app import db
 
 class dbCard(db.Model):
     __tablename__ = 'cards'

@@ -1,5 +1,6 @@
-from sbj.db import db
-# from db import db
+# from sbj.db import db
+import datetime
+from sbj.app import db
 
 game_players_table = db.Table(
     'gameplayers',
@@ -12,5 +13,10 @@ game_players_table = db.Table(
         'player_id', db.Integer,
         db.ForeignKey('players.id'),
         primary_key=True
+    ),
+    db.Column(
+        'started_at', db.DateTime,
+        nullable=False,
+        default=datetime.datetime.utcnow(),
     )
 )

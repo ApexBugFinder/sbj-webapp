@@ -6,8 +6,8 @@ import datetime, random
 
 
 
-# from db import db
-from sbj.db import db
+from sbj.app import db
+# from sbj.db import db
 
 
 class dbDeck(db.Model):

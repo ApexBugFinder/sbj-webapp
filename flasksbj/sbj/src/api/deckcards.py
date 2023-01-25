@@ -1,4 +1,5 @@
 from flask import Blueprint, jsonify, abort, request
+from flask_cors import CORS
 from sbj.src.models.deck import Deck
 from sbj.src.models.card import Card
 from sbj.src.models.deckcard import DeckCard
@@ -13,17 +14,11 @@ engine = create_engine(
 
 Sesson = sessionmaker(bind=engine)
 session = Sesson()
-# from src.models.deck import Deck
-# from src.models.card import Card
-# from src.models.deckcard import DeckCard
-# from src.models.deckcard import deck_cards_table
-# from src.models.gamedeck import game_deck_table
-# from flask_sqlalchemy import SQLAlchemy
-# db = SQLAlchemy()
+
 from sqlalchemy import select,join
 
 bp = Blueprint('deckcards', __name__, url_prefix='/api/deckcards')
-
+CORS(bp)
 
 # READ BY DECK ID
 

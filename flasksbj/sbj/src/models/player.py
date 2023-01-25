@@ -1,8 +1,8 @@
 import datetime
 from .handstatus import  HandStatus
-from sbj.db import db
+# from sbj.db import db
 from .hand import Hand
-# from db import db
+from sbj.app import db
 
 
 class dbPlayer(db.Model):

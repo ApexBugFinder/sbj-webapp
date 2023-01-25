@@ -14,9 +14,9 @@
 # from .dbObjects.game_results import game_results_table
 
 # from . import HandStatus
+# from .game_results import game_results_table
 # from .result import Result
-from flask_sqlalchemy import SQLAlchemy
-db = SQLAlchemy()
+
 
 
 

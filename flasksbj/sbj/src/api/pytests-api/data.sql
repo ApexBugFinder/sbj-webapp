@@ -1,0 +1,1 @@
+INSERT INTO cards (suite, face, l_value, h_value, url) 

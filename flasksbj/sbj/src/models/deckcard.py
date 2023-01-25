@@ -1,9 +1,9 @@
 
 from .card import Card
 
-# from sbj.app import db
-# from db import db
-from sbj.db import db
+# from sbj.sbj.app import db
+from sbj.app import db
+# from sbj.db import db
 
 
 
@@ -39,7 +39,7 @@ class DeckCard(Card):
         def setdeckcardstate(self, used):
             self.used = used
 
-        
+
         def setDeckofdeckcards(self, deck:list= []):
             self.deck = deck
         def serialize(self):

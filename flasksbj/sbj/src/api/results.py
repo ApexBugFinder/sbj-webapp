@@ -1,5 +1,7 @@
 from flask import Blueprint, jsonify, abort, request
+from flask_cors import CORS
 bp = Blueprint('results', __name__, url_prefix='/api/results')
+CORS(bp)
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 

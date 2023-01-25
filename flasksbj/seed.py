@@ -149,7 +149,8 @@ def main():
 
 
     game_init = Game(players=players)
-
+    game_init.setplayerId(player2.id)
+    game_init.setdealerId(player1.id)
 
 
     session.add(game_init)
@@ -240,7 +241,7 @@ def main():
 
 
     print("\n\n", deckies_rt)
-    j = deck_cards_table.join(Card)
+    j = (deck_cards_table).join(Card)
     deckcardsstmt22 = select([deck_cards_table, Card]).select_from(
         j).filter(deck_cards_table.c.deck_id == deckid)
     # deckcardsstmt22 = sqlalchemy.select(deck_cards_table).where(deck_cards_table.c.deck_id==deckid)

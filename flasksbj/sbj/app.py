@@ -5,10 +5,11 @@ from datetime import timedelta
 from decouple import config
 from flask_sqlalchemy import SQLAlchemy
 db = SQLAlchemy()
-
+from flask_cors import CORS
 
 def create_app(test_config=None):
     app = Flask(__name__, instance_relative_config=True)
+    cors = CORS(app, resources={r"/api/*": {"origins": "*"}})
     app.config.from_mapping(
         FLASK_DEBUG=True,
         SECRET_KEY='dev',

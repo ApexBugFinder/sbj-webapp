@@ -1,6 +1,6 @@
 # from sbj.app import db
-# from db import db
-from sbj.db import db
+from sbj.app import db
+# from sbj.db import db
 
 game_results_table = db.Table(
     'gameresults',

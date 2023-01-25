@@ -1,5 +1,5 @@
-# from db import db
-from sbj.db import db
+from sbj.app import db
+# from sbj.db import db
 
 game_deck_table = db.Table(
     'gamedecks',
