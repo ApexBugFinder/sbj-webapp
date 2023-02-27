@@ -21,8 +21,10 @@ CORS(bp)
 @bp.route('/create', methods=['POST'])
 def create():
         if 'name' not in request.json:
+
                 return abort(400, {'message':'Username not included'})
         if len(request.json['name'])<=3:
+
                 return abort(400, {'message': 'Username too short'})
         new_player = Player(
                 name = request.json['name']
@@ -30,8 +32,10 @@ def create():
         try:
                 session.add(new_player)
                 session.commit()
+
                 return jsonify(new_player.serialize())
         except:
+                session.rollback()
                 return jsonify(False, {'message': 'Something went wrong'})
 
 # READ ALL
@@ -41,47 +45,56 @@ def index():
         result = []
         for player in players:
                 result.append(player.serialize())
+
         if len(players) == 0:
+
                 return jsonify(False, {'message': 'No players yet, Sorry'})
+
         return jsonify(result)
 
 #  READ by id
 
 
 
-@bp.route('read/<int:id>', methods=['GET'])
+@bp.route('/read/<int:id>', methods=['GET'])
 def read_by_id(id: int):
         records = session.query(Player).filter(id = id)
         results = []
         for record in records:
                 results.append(record.serialize())
+
+
         return jsonify(results[0])
 
 # READ BY Name
 
 
 
-@bp.route('read_by_name/<string:username>', methods=['GET'])
+@bp.route('/read_by_name/<username>', methods=['GET'])
 def read_by_name(username:str):
         try:
                 results = []
+
+                players = session.query(Player).filter(Player.name==username).limit(1)
                 print ('USERNAME: ', username)
-                players = session.query(Player).filter_by(name=username).limit(1)
-
                 for record in players:
-                        print(record.serialize())
-
+                        print('HELL')
                         results.append(record.serialize())
 
+                print(results[0])
                 if len(results) == 0:
+
                         abort(400, {'message': 'Username does not exist'})
+
+
                 return jsonify(results[0])
 
         except:
-                                return abort(400,  'Something definitely went wrong')
+                session.rollback()
+                return abort(400,  'Something definitely went wrong')
 
 # UPDATE
-@bp.route('update/<int:id>', methods=['PUT'])
+@bp.route('/update/<int:id>', methods=['PUT'])
 def update(id: int):
 
         q = session.query(Player).filter(id=id).limit(1)
@@ -90,10 +103,12 @@ def update(id: int):
                 aplayer = record.serialize()
         #  User name is being updated
         if aplayer == None:
+
                 abort(400 , "User does not exist")
         if 'name' in request.json:
                 # Length of user name
                 if len(request.json['name']) < 5:
+
                         abort(400, {'message': 'Username has to have 5 or more characters'})
 
                 # Username update
@@ -102,9 +117,11 @@ def update(id: int):
         # Limit is being updated
         elif 'limit' in request.json:
                 if type(request.json['limit']) != int:
+
                         abort(400, {'message': 'Limit is incorrect type, it must be int'})
                 # Limit is in range: not less than 0 and less than 21
                 elif request.json['limit'] > 21 or request.json['limit'] < 0:
+
                         abort(400, {'message': 'Limit out of Range'})
                 # Update Limit
                 aplayer.limit = int(request.json['limit'])
@@ -112,8 +129,10 @@ def update(id: int):
         try:
                 session.add(aplayer)
                 session.commit()
+
                 return jsonify(aplayer.serialize())
         except:
+                session.rollback()
                 return jsonify(False, {'message': f'Something went wrong updating {aplayer.id} '})
 
 
@@ -129,8 +148,11 @@ def delete(id:int):
                 try:
                         session.delete(p)
                         session.commit()
+
                         return jsonify(True)
                 except:
+                        session.rollback()
                         return abort(400, f"Something went wrong deleting user {p.id}")
         else:
+                session.rollback()
                 return jsonify(False, {"message": "Player does not exist"})

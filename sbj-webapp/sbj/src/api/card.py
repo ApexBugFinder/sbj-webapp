@@ -22,12 +22,15 @@ CORS(bp)
 @bp.route('/', methods=['POST'])
 def create():
         if 'face' not in request.json:
+
                 return abort(400, "face is a required Card Property in order to post")
 
 
         if  'suite'not in request.json :
+
                 return abort(400, "suite is a required Card Property in order to post")
         if 'url' not in request.json:
+
                 return abort(400, "url is a required Card Property in order to post")
 
         c = Card(
@@ -39,6 +42,7 @@ def create():
         )
         session.add(c)
         session.commit()
+
         return jsonify(c.serialize())
 
 
@@ -50,6 +54,8 @@ def index():
         result = []
         for card in cards:
                 result.append(card.serialize())
+
+
         return jsonify(result)
 
 # GET BY ID
@@ -59,6 +65,8 @@ def show_by_id(id:int):
         result = []
         for card in c:
                 result.append(card.serialize())
+
+
 
         return jsonify(result)
 
@@ -74,8 +82,10 @@ def updateCard(id:int):
         try:
                 session.add(c)
                 session.commit()
+
                 return jsonify(c.serialize())
         except:
+                session.rollback()
                 return jsonify(False)
 
 
@@ -89,8 +99,10 @@ def delete(id: int):
                 try:
                         session.delete(c)
                         session.commit()
+
                         return jsonify(True)
                 except:
+                        session.rollback()
                         return jsonify(False)
 
 

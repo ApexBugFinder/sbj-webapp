@@ -19,11 +19,14 @@ class Player(dbPlayer):
           def __init__(self, name:str):
             self.name = name
             self.limit = 0
-            self.hand = None;
+            self.hand = None
+            self.id = None
 
           def initHand(self):
               if self.id != None:
-                  self.hand = Hand(userid= self.id,lim=self.limit)
+                  print('PLAYER ID: ', self.id)
+                  self.hand = Hand(lim=self.limit)
+                  self.hand.setUserId(self.id)
                   self.hand.status = HandStatus.ACTIVE.name
 
               else:

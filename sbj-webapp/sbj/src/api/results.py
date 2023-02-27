@@ -16,29 +16,37 @@ session = Sesson()
 @bp.route('/win', methods=['POST'])
 def win():
       try:
+
             jsonify(True)
       except:
+
             jsonify(False)
 # POST LOSING
 @bp.route('/lose', methods=['POST'])
 def lose():
       try:
+
             jsonify(True)
       except:
+
             jsonify(False)
 # POST DRAW
 @bp.route('/draw', methods=['POST'])
 def draw():
         try:
-                jsonify(True)
+
+                  jsonify(True)
         except:
-                jsonify(False)
+
+                  jsonify(False)
 
 
 # GET RESULTS
 @bp.route('/<int:id>',methods=['GET'])
 def get_result():
-        try:
-                jsonify(True)
-        except:
-                jsonify(False)
+      try:
+
+            jsonify(True)
+      except:
+
+            jsonify(False)

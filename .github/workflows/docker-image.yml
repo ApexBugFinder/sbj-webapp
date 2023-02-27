@@ -27,5 +27,5 @@ jobs:
     - name: Push image
       run: docker push $IMAGE
     - name: Job Complete
-      run : echo "Docker build and Push complete"
+      run : echo Docker build and Push complete of image $IMAGE to $SERVER
 

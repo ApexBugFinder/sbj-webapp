@@ -34,12 +34,12 @@ class Game(dbGame):
                 id = self.id
                 self.game_status = GameStatus.PRE.name
                 self.player = players["player"]
-
-
-                self.player_id = None
-                print('*****HELLO PLAYER ID: ', self.player_id)
                 self.dealer=players["dealer"]
-                self.dealer_id = None
+
+                self.player_id = self.player.id
+                print('*****HELLO PLAYER ID: ', self.player_id)
+
+                self.dealer_id = self.dealer.id
                 print('*****HELLO DEALER ID: ', self.dealer_id)
                 # self.results=Result(players)
                 self.deck = None
@@ -51,7 +51,7 @@ class Game(dbGame):
 
         def setdealerId(self, id):
             self.dealer_id = id
-            
+
         def sortDeck(self):
                 random.shuffle(self.deck)
 
@@ -77,15 +77,22 @@ class Game(dbGame):
 
                 return cards_dealt
 
-
+        def serialize_w_users(self):
+                return {
+                    'id': self.id,
+                    'game_status': self.game_status,
+                    'started_at': self.started_at,
+                    'finished_at': self.finished_at,
+                    'player_id': self.player_id,
+                    'dealer_id': self.dealer_id
+                }
         def serialize(self):
                 return {
-                'id': self.id,
-                'game_status': self.game_status,
-                'started_at': self.started_at,
-                'finished_at': self.finished_at
+                    'id': self.id,
+                    'game_status': self.game_status,
+                    'started_at': self.started_at,
+                    'finished_at': self.finished_at,
                 }
-
 
         def set_score(self):
                 if self.dealer.hand.status == HandStatus.BLACKJACK.name and self.player.hand.status == HandStatus.BLACKJACK.name:

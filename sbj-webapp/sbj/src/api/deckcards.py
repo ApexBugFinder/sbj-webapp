@@ -36,8 +36,12 @@ def get_all():
                                 "used": row['used']
                         }
                         rt.append(a)
+
                 return jsonify(rt)
         except:
+
+
+                session.rollback()
                 return jsonify(False, {"message": "Something went wrong with getting all deckcards"})
 
 
@@ -70,10 +74,12 @@ def get_deck_cards_by_deck_id(id: int):
                 print(result)
 
 
-
                 return jsonify(result)
 
         except:
+
+
+                session.rollback()
                 return jsonify(False)
 
 
@@ -112,8 +118,10 @@ def change_to_used():
                         proof['deck.id']=record['deck_id']
                         proof['used']=record['used']
 
+
                 return jsonify(proof)
         except:
+                session.rollback()
                 return jsonify({"Message": "Something went wrong changing card to the used pile"})
 
 
@@ -155,4 +163,5 @@ def change_to_unused():
 
                 return jsonify(proof)
         except:
-                        return jsonify({"Message": "Something went wrong changing card to the un-used pile"})
+                session.rollback()
+                return jsonify({"Message": "Something went wrong changing card to the un-used pile"})

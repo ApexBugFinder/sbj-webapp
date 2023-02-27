@@ -27,7 +27,7 @@ def create():
     pid = request.json['player.id']
     did = request.json['dealer.id']
     if pid == 1 or did == 1:
-            return jsonify(True)
+            return jsonify(False)
     else:
 
         if 'player.id' not in request.json:
@@ -41,28 +41,32 @@ def create():
 
             # GET PLAYER
             p = session.query(Player).filter(Player.id==pid).limit(1)
-            player = None
+            player:Player = None
+            print('HEEEEEEEEEEEEEEEEEEEEE', p)
 
             for record in p:
-                    print(p)
-                    player  = record.serialize()
+                    print(record)
+                    player  = record
 
             # GET DEALER
             d = session.query(Player).filter(Player.id==did).limit(1)
-            dealer = None
+            dealer:Player = None
             for record in d:
-                dealer = record.serialize()
+                dealer = record
 
 
             players = {"player": player, "dealer": dealer}
+            print('DEALER in NEW GAME:', dealer.serialize())
             new_game = Game(players)
-            new_game.setplayerId(pid)
-            new_game.setdealerId(did)
-            print('NEW GAME STARTED AT: ', new_game.started_at)
+            new_game.setplayerId(id=player.id)
+            new_game.setdealerId(id=dealer.id)
+            print('NEW GAME UPDATED BY PLAYERS: ', new_game.serialize())
             try:
 
                 session.add(new_game)
                 session.commit()
+                session.begin()
+
 
                 print('NEW game COMMITTTTED: ', new_game.serialize())
                 insert_player = game_players_table.insert().values(game_id=new_game.id,  player_id=new_game.player_id)
@@ -75,10 +79,11 @@ def create():
                 insert_dealer = game_players_table.insert().values(game_id=new_game.id, player_id=new_game.dealer_id)
                 session.execute(insert_dealer)
 
-                session.commit()
 
-                return jsonify(new_game.serialize())
+
+                return jsonify(new_game.serialize_w_users())
             except:
+                session.rollback()
                 return jsonify(False)
 
 # GET ALL
@@ -90,7 +95,9 @@ def index():
     for game in games:
         result.append(game.serialize())
     if len(games) == 0:
+
         return jsonify(False, {'message': 'No games yet, Sorry'})
+
     return jsonify(result)
 
 
@@ -123,6 +130,7 @@ def get_by_id(id: int):
 
         return jsonify(rt)
     except:
+        session.rollback()
         return jsonify(False, {"message": "Operation failed to read game information"})
 
 
@@ -145,8 +153,10 @@ def update(id: int):
 
             session.add(g)
             session.commit()
+
             return jsonify(g)
         except:
+            session.rollback()
             return jsonify(g, {"message": "Update failed"})
 
 # DELETE
@@ -162,6 +172,8 @@ def delete(id: int):
         try:
             session.delete(g)
             session.commit()
+
             return jsonify(True)
         except:
+            session.rollback()
             return jsonify(False, {"message": "Something went wrong deleting game"})

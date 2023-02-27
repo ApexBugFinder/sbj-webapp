@@ -22,10 +22,10 @@ class Card(dbCard):
                 self.face = face
                 self.suite = suite
                 self.value = h_value
-                self.h_value = h_value
-                self.l_value = l_value
+                self.h_value:int = h_value
+                self.l_value:int = l_value
                 self.url = url
-                self.possible_values = (h_value, l_value)
+                # self.possible_values = (h_value, l_value)
 
         def serialize(self):
 

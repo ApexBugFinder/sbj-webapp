@@ -141,7 +141,7 @@ def main():
 
     print(player1.id, player1.name);
 
-    print(player2.id, player1.name)
+    print(player2.id, player2.name)
     players = {
         "dealer": player1,
         "player": player2
@@ -315,27 +315,27 @@ def main():
     for card in player2.hand.cards:
         print("PLAYER CARD:  ",card.serialize())
 
-    print("DEALER HAND H_VALUE: ", player1.hand.value['high'])
-    print("PLAYER HAND H_VALUE: ", player2.hand.value['high'])
+    print("DEALER HAND H_VALUE: ", player1.hand.h_value)
+    print("PLAYER HAND H_VALUE: ", player2.hand.h_value)
     print ("DEALER HAND STATUS: ", player1.hand.status)
     print("PLAYER HAND STATUS: ", player2.hand.status)
     # update hand after calculations
     updatehandstmt1 = sqlalchemy.update(Hand).where(Hand.id==player1.hand.id).values(status=player1.hand.status,
-                                                                player_limit=player1.hand.player_limit, h_value=player1.hand.value['high'],
-                                                                l_value=player1.hand.value['low'])
+                                                                player_limit=player1.hand.player_limit, h_value=player1.hand.h_value,
+                                                                l_value=player1.hand.l_value)
     session.execute(updatehandstmt1)
 
     session.commit()
     updatehandstmt2 = sqlalchemy.update(Hand).where(Hand.id==player2.hand.id).values(status=player2.hand.status,
-                                                                    player_limit=player2.hand.player_limit, h_value=player2.hand.value['high'],
-                                                                    l_value=player2.hand.value['low'])
+                                                                    player_limit=player2.hand.player_limit, h_value=player2.hand.h_value,
+                                                                    l_value=player2.hand.l_value)
     session.execute(updatehandstmt2)
 
     session.commit()
     print("Cards in Dealer's hand:", player1.hand.cards_count)
     print("Cards in Player's hand:", player2.hand.cards_count)
 
-
+    print('COMPLETE')
 
 
     # HAND to dealer
@@ -387,4 +387,5 @@ def main():
 # create test deck
 # test_deck = Deck()
 # run script
+
 main()
